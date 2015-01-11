@@ -1,0 +1,22 @@
+{
+  "name": "ore_no_base",
+  "version": "0.0.0",
+  "authors": [
+    "tanshio <rakuburomail+tanshio@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "velocity": "~1.2.0",
+    "jquery": "1.11.1"
+  },
+  "devDependencies": {
+    "snap.svg": "~0.3.0"
+  }
+}
