@@ -13,14 +13,24 @@ var gulp = require('gulp'),
   spritesmith = require('gulp.spritesmith'),
   handleErrors = require("./util/handle.js");
 
+var pkg = require("./package.json");
+
 gulp.task('jade', function() {
-  var YOUR_LOCALS = {};
+  var YOUR_LOCALS = {"aaa":"aaa"};
 
   return gulp.src('app/jade/*.jade')
     .pipe($.plumber())
+    .pipe($.data(function(file){
+      var reg = /\/([A-Za-z_0-9]+?)\.jade/;
+      var path = file.path.match(reg)[1];
+      console.log(path);
+      console.log(pkg.name);
+      return {"aaa":path}
+    }))
     .pipe(jade({
-      locals: YOUR_LOCALS,
+      // locals: abcd(),
       pretty: true
+
     }))
     .pipe(gulp.dest('dist'));
 });
