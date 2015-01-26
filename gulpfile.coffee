@@ -11,13 +11,23 @@ browserify = require 'browserify'
 source = require 'vinyl-source-stream'
 uglify = require 'gulp-uglify'
 notify = require 'gulp-notify'
-handleErrors = require("./utils/handle.coffee");
+handleErrors = require("./util/handle.coffee");
+pkg = require("./package.json");
 
 
 #jade
 gulp.task "jade", ->
   YOUR_LOCALS = {}
-  gulp.src("app/jade/*.jade").pipe($.plumber({errorHandler: notify.onError('<%= error.message %>')})).pipe(jade(
+  gulp.src("app/jade/*.jade")
+  .pipe($.plumber({errorHandler: notify.onError('<%= error.message %>')}))
+  .pipe($.data((file)->
+    reg = /\/([A-Za-z_0-9]+?)\.jade/
+    path = file.path.match(reg)[1]
+    console.log(path)
+    console.log(pkg.name)
+    return {"aaa":path}
+  ))
+  .pipe(jade(
     locals: YOUR_LOCALS
     pretty: true
   )).pipe gulp.dest("dist")
@@ -118,8 +128,8 @@ gulp.task "watch", ->
   gulp.watch "app/**/*.coffee", ["script"]
 
   # gulp.watch('app/**/*.scss', reload);
-  # gulp.watch('app/**/*.styl', reload);
-  # gulp.watch('app/**/*.styl', ['stylus']);
+  gulp.watch('app/**/*.styl', reload);
+  gulp.watch('app/**/*.styl', ['stylus']);
   gulp.watch "dist/**/*.html", reload
   gulp.watch "dist/**/*.css", reload
   gulp.watch "dist/**/*.js", reload
