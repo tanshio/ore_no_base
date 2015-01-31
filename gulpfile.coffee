@@ -13,6 +13,7 @@ uglify = require 'gulp-uglify'
 notify = require 'gulp-notify'
 handleErrors = require("./util/handle.coffee");
 pkg = require("./package.json");
+data = require("./data.json");
 
 
 #jade
@@ -25,10 +26,11 @@ gulp.task "jade", ->
     path = file.path.match(reg)[1]
     console.log(path)
     console.log(pkg.name)
-    return {"aaa":path}
+    console.log(data[path])
+    console.log(data[path]["title"])
+    return {"title":data[path]["title"],"keyword":data[path]["keyword"],"disc":data[path]["disc"]}
   ))
   .pipe(jade(
-    locals: YOUR_LOCALS
     pretty: true
   )).pipe gulp.dest("dist")
 
