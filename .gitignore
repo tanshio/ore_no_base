@@ -4,6 +4,9 @@ dist
 # Mac
 .DS_Store
 
+#styleguide
+styleguide/
+
 # sublime
 *.sublime-project
 *.sublime-workspace
