@@ -15,6 +15,10 @@ handleErrors = require("./util/handle.coffee");
 pkg = require("./package.json");
 data = require("./data.json");
 
+styleguide = require('sc5-styleguide')
+# sass = require('gulp-sass');
+outputPath = 'styleguide'
+
 
 #jade
 gulp.task "jade", ->
@@ -56,13 +60,21 @@ gulp.task "coffee", ->
   gulp.src("app/coffee/*.coffee").pipe($.plumber({errorHandler: notify.onError('<%= error.message %>')})).pipe(coffee(bare: true)).pipe gulp.dest("./dist/js")
 
 
-#scss
 gulp.task "scss", ->
-  gulp.src(["app/sass/style.scss"]).pipe($.plumber({errorHandler: notify.onError('<%= error.message %>')})).pipe($.rubySass(
-    style: "expanded"
-    precision: 10
-    loadPath: ["app/sass"]
-  )).pipe($.pleeease()).pipe gulp.dest("dist/style")
+  $.rubySass("app/sass/",{
+
+      precision: 10
+      loadPath: ["app/sass"]
+    }
+  )
+  # .pipe(cmq({
+  #     log: true
+  #   }))
+  # .pipe $.autoprefixer 'last 2 version','ie 9'
+  # .pipe(minifyCSS({keepBreaks:false}))
+  .pipe $.pleeease()
+  .pipe gulp.dest("dist/style")
+
 
 
 #stylus
@@ -111,13 +123,37 @@ gulp.task "clear", (i_done) ->
   return $.cache.clearAll(i_done);
 
 
-# watch
-gulp.task "watch", ->
-  browserSync.init null,
-    server:
-      baseDir: ["dist"]
+gulp.task 'styleguide:generate', ->
+  return gulp.src('app/**/*.scss')
+    .pipe styleguide.generate {
+        title: 'My Styleguide',
+        server: true,
+        rootPath: outputPath,
+        overviewPath: 'README.md'
+      }
 
-    notify: false
+    .pipe gulp.dest(outputPath)
+
+
+gulp.task 'styleguide:applystyles', ->
+  return $.rubySass "app/sass/"
+    .on 'error', (err) ->
+       console.error('Error!', err.message)
+    .pipe styleguide.applyStyles()
+    .pipe gulp.dest(outputPath)
+
+
+
+gulp.task 'styleguide', ['styleguide:generate', 'styleguide:applystyles']
+
+# watch
+gulp.task "watch",['styleguide'], ->
+  browserSync.init(
+    {
+      server:
+        baseDir: "dist"
+    }
+  )
 
 
   # gulp.watch('app/**/*.jade', reload);
@@ -126,12 +162,13 @@ gulp.task "watch", ->
   # gulp.watch('app/**/*.jade', reload);
   # gulp.watch('app/**/*.scss', reload);
   gulp.watch "app/**/*.scss", ["scss"]
+  gulp.watch "app/**/*.scss", ['styleguide']
   gulp.watch "app/**/*.js", ["js"]
   gulp.watch "app/**/*.coffee", ["script"]
 
   # gulp.watch('app/**/*.scss', reload);
-  gulp.watch('app/**/*.styl', reload);
-  gulp.watch('app/**/*.styl', ['stylus']);
+  # gulp.watch('app/**/*.styl', reload);
+  # gulp.watch('app/**/*.styl', ['stylus']);
   gulp.watch "dist/**/*.html", reload
   gulp.watch "dist/**/*.css", reload
   gulp.watch "dist/**/*.js", reload

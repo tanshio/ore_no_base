@@ -1,0 +1,53 @@
+
+
+html,
+body.sg {
+  width: 100%;
+  height: 100%;
+}
+
+.sg.view-index {
+  height: 100%;
+}
+
+.sg {
+  box-sizing: border-box;
+}
+
+$primary-color: #1c3849;
+
+
+// Colors and typography
+//
+// This section describes base colors and typography
+//
+// Styleguide 2.0
+
+// Colors and typography
+//
+// This section describes base colors and typography
+//
+// Styleguide 1.0
+
+// Main colors
+//
+// $primary-color - Primary color
+// $secondary-color - Secondary color
+// $primary-action-color - Primary button color
+// $default-action-color - Default button color and link color
+// $tertiary-color - Used for input hovers and hilights
+//
+// markup:
+// <div style="background: {$modifiers};" class="styleguide-color">{$modifiers}</div>
+//
+// Styleguide 1.1
+
+// Calculated colors
+//
+// .color_lighten - Lighter than default action color
+// .color_darken - Darker than default action color
+//
+// markup:
+// <div class="styleguide-color {$modifiers}"></div>
+//
+// Styleguide 1.1.1
