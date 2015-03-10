@@ -1,48 +1,75 @@
 "use strict"
-gulp = require "gulp"
-$ = require("gulp-load-plugins")()
-jade = require "gulp-jade"
-browserSync = require "browser-sync"
-reload = browserSync.reload
-runSequence = require "run-sequence"
-spritesmith = require "gulp.spritesmith"
-coffee = require "gulp-coffee"
-browserify = require 'browserify'
-source = require 'vinyl-source-stream'
-uglify = require 'gulp-uglify'
-notify = require 'gulp-notify'
-handleErrors = require("./util/handle.coffee");
-pkg = require("./package.json");
-data = require("./data.json");
 
-styleguide = require('sc5-styleguide')
-# sass = require('gulp-sass');
-outputPath = 'styleguide'
+# Gulp Setup
+#
+# 1. Settings & variables
+# 2. Jade
+# 3. JavaScript
+# 4. StyleSheet
+# 5. Images
+# 6. StyleGuide
+# 7. Tasks
+
+#****************************
+# 1. Settings
+#****************************
+
+pkg          = require './package.json'
+gulp         = require 'gulp'
+$            = require('gulp-load-plugins')()
+runSequence  = require 'run-sequence'
+
+browserSync  = require 'browser-sync'
+reload       = browserSync.reload
+
+jade         = require 'gulp-jade'
+data         = require './data.json'
+
+browserify   = require 'browserify'
+source       = require 'vinyl-source-stream'
+buffer       = require 'vinyl-buffer'
+handleErrors = require './util/handle.coffee'
+
+spritesmith  = require 'gulp.spritesmith'
+
+styleguide   = require 'sc5-styleguide'
+outputPath   = 'styleguide'
 
 
-#jade
+
+#****************************
+# 2. Jade
+#****************************
 gulp.task "jade", ->
   YOUR_LOCALS = {}
-  gulp.src("app/jade/*.jade")
-  .pipe($.plumber({errorHandler: notify.onError('<%= error.message %>')}))
+  gulp.src(pkg.setings.app+"/jade/*.jade")
+  .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
   .pipe($.data((file)->
-    reg = /\/([A-Za-z_0-9]+?)\.jade/
-    path = file.path.match(reg)[1]
-    console.log(path)
-    console.log(pkg.name)
-    console.log(data[path])
-    console.log(data[path]["title"])
-    return {"title":data[path]["title"],"keyword":data[path]["keyword"],"disc":data[path]["disc"]}
+    if file
+      reg = /\/([A-Za-z_0-9]+?)\.jade/
+      path = file.path.match(reg)[1]
+      console.log(path)
+      console.log(pkg.name)
+      console.log(data[path])
+      console.log(data[path]["title"])
+      return {"title":data[path]["title"],"keyword":data[path]["keyword"],"desc":data[path]["desc"]}
+    else
+      return {"title":null,"keyword":null,"desc":null}
   ))
   .pipe(jade(
     pretty: true
-  )).pipe gulp.dest("dist")
+  )).pipe gulp.dest(pkg.setings.dist)
 
+
+
+#****************************
+# 3. JavaScript
+#****************************
 
 # browserifyによる連結
 gulp.task "script", ->
   browserify
-    entries: ['./app/coffee/main.coffee']
+    entries: [pkg.setings.app+'coffee/main.coffee']
     extensions: ['.coffee'] # CoffeeScriptも使えるように
     # shim:
     #   jQuery:
@@ -51,20 +78,37 @@ gulp.task "script", ->
   .bundle()
   .on 'error', handleErrors
   .pipe source 'main.js' # 出力ファイル名を指定
-  # .pipe(uglify())
-  .pipe gulp.dest "./dist/js/" # 出力ディレクトリを指定
+  .pipe buffer()
+  .pipe uglify()
+  .pipe gulp.dest pkg.setings.dist+"js/" # 出力ディレクトリを指定
 
 
 #coffee
 gulp.task "coffee", ->
-  gulp.src("app/coffee/*.coffee").pipe($.plumber({errorHandler: notify.onError('<%= error.message %>')})).pipe(coffee(bare: true)).pipe gulp.dest("./dist/js")
+  gulp.src(pkg.setings.app+"coffee/*.coffee")
+  .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
+  .pipe($.coffee(bare: true))
+  .pipe gulp.dest pkg.setings.dist+"js"
+
+#JavaScript
+gulp.task "js", ->
+  gulp.src [pkg.setings.app+"js/main.js"]
+  .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
+  .pipe $.uglify
+    preserveComments:"some"
+  .pipe gulp.dest pkg.setings.dist+"js"
 
 
+
+#****************************
+# 4. StyleSheet
+#****************************
+
+#SCSS
 gulp.task "scss", ->
-  $.rubySass("app/sass/",{
-
+  $.rubySass(pkg.setings.app+"sass/",{
       precision: 10
-      loadPath: ["app/sass"]
+      loadPath: [pkg.setings.dist+"/sass"]
     }
   )
   # .pipe(cmq({
@@ -73,28 +117,28 @@ gulp.task "scss", ->
   # .pipe $.autoprefixer 'last 2 version','ie 9'
   # .pipe(minifyCSS({keepBreaks:false}))
   .pipe $.pleeease()
-  .pipe gulp.dest("dist/style")
-
+  .pipe gulp.dest pkg.setings.dist+"style"
 
 
 #stylus
 gulp.task "stylus", ->
   # .pipe($.pleeease())
-  gulp.src(["app/stylus/style.styl"]).pipe($.plumber({errorHandler: notify.onError('<%= error.message %>')})).pipe($.stylus(compress: true)).pipe gulp.dest("dist/style")
+  gulp.src pkg.setings.app+"stylus/style.styl"
+  .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
+  .pipe($.stylus(compress: true))
+  .pipe gulp.dest pkg.setings.dist+"style"
 
 
 
-
-gulp.task "js", ->
-
-  gulp.src(["dist/js/main.js"]).pipe($.plumber({errorHandler: notify.onError('<%= error.message %>')})).pipe(uglify({preserveComments:"some"})).pipe gulp.dest("dist/js")
-
-
+#****************************
+# 5. Images
+#****************************
 
 # スプライト化
 gulp.task "sprite", ->
   #スプライトにする愉快な画像達
-  spriteData = gulp.src("app/images/sprites/*.png").pipe(spritesmith(
+  spriteData = gulp.src pkg.setings.app+"/images/sprites/*.png"
+  .pipe(spritesmith(
     imgName: "sprite.png" #スプライトの画像
     cssName: "_sprite.scss" #生成されるscss
     imgPath: "../images/sprite.png" #生成されるscssに記載されるパス
@@ -111,18 +155,25 @@ gulp.task "sprite", ->
 
 # 画像最適化
 gulp.task "images", ->
-  return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin({
+  return gulp.src pkg.setings.app+'/images/**/*'
+    .pipe(changed( pkg.setings.dist+'images' ))
+    .pipe($.imagemin({
       progressive: true,
       interlaced: true
-    })))
-    .pipe(gulp.dest('dist/images'))
+    }))
+    .pipe gulp.dest pkg.setings.dist+'images'
     .pipe($.size({title: 'images'}));
 
 gulp.task "clear", (i_done) ->
   return $.cache.clearAll(i_done);
 
 
+
+#****************************
+# 6. StyleGuide
+#****************************
+
+# スタイルガイドセッティング
 gulp.task 'styleguide:generate', ->
   return gulp.src('app/**/*.scss')
     .pipe styleguide.generate {
@@ -131,7 +182,6 @@ gulp.task 'styleguide:generate', ->
         rootPath: outputPath,
         overviewPath: 'README.md'
       }
-
     .pipe gulp.dest(outputPath)
 
 
@@ -144,6 +194,10 @@ gulp.task 'styleguide:applystyles', ->
 
 
 
+#****************************
+# 7. Tasks
+#****************************
+
 gulp.task 'styleguide', ['styleguide:generate', 'styleguide:applystyles']
 
 # watch
@@ -154,7 +208,6 @@ gulp.task "watch",['styleguide'], ->
         baseDir: "dist"
     }
   )
-
 
   # gulp.watch('app/**/*.jade', reload);
   gulp.watch "app/**/*.jade", ["jade"]

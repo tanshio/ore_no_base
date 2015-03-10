@@ -8,6 +8,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "settings": {
+    "app": "app/",
+    "dist": "dist/"
+  },
   "author": {
     "name": "shota tanno",
     "url": "http://tanshio.net"
@@ -24,6 +28,7 @@
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^2.1.0",
     "gulp-cache": "^0.2.8",
+    "gulp-cached": "^1.0.4",
     "gulp-coffee": "^2.3.1",
     "gulp-combine-media-queries": "^0.2.0",
     "gulp-data": "^1.2.0",
@@ -43,6 +48,7 @@
     "run-sequence": "^1.0.2",
     "sc5-styleguide": "^0.3.6",
     "velocity-animate": "^1.2.2",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "browser": {
