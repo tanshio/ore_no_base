@@ -1,0 +1,51 @@
+
+.u-align-center {
+	text-align: center;
+}
+
+.u-align-right {
+	text-align: right;
+}
+
+.u-align-left {
+	text-align: left;
+}
+
+// Text-align
+//
+// .u-align-center - center
+// .u-align-right - right
+// .u-align-left - left
+//
+// markup:
+// <div class="{$modifiers}">あああ</div>
+//
+// Styleguide 4.1
+
+.u-text-bold {
+	font-weight: bold;
+}
+
+.u-text-normal {
+	font-weight: normal;
+}
+
+.u-text-italic {
+	font-style: italic;
+}
+
+.u-text-underline {
+	text-decoration: underline;
+}
+
+// Text-style
+//
+// .u-text-bold - bold
+// .u-text-normal - normal
+// .u-text-italic - italic
+// .u-text-underline - underline
+//
+// markup:
+// <div class="{$modifiers}">あああ</div>
+//
+// Styleguide 4.2
