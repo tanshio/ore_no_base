@@ -66,37 +66,29 @@ gulp.task "jade", ->
 # 3. JavaScript
 #****************************
 
-# browserify
+# Coffee
 gulp.task "script", ->
   browserify
-    entries: [pkg.settings.app+'coffee/main.coffee']
+    entries: './'+pkg.settings.app+'coffee/main.coffee'
     extensions: ['.coffee'] # Use CoffeeScript
-    # shim:
-    #   jQuery:
-    #       path: './bower_components/jquery/dist/jquery.min.js',
-    #       exports: '$'
   .bundle()
   .on 'error', handleErrors
   .pipe source 'main.js' # Output filename
-  .pipe buffer()
-  .pipe uglify()
+  # .pipe buffer()
+  # .pipe $.uglify()
   .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
 
 
-#coffee
-gulp.task "coffee", ->
-  gulp.src(pkg.settings.app+"coffee/*.coffee")
-  .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
-  .pipe($.coffee(bare: true))
-  .pipe gulp.dest pkg.settings.dist+"js"
-
-#JavaScript
-gulp.task "js", ->
-  gulp.src [pkg.settings.app+"js/main.js"]
-  .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
-  .pipe $.uglify
-    preserveComments:"some"
-  .pipe gulp.dest pkg.settings.dist+"js"
+# VanillaJS
+gulp.task "scriptjs", ->
+  browserify
+    entries: './'+pkg.settings.app+'js/main.js'
+  .bundle()
+  .on 'error', handleErrors
+  .pipe source 'main.js' # Output filename
+  # .pipe buffer()
+  # .pipe $.uglify()
+  .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
 
 
 
@@ -116,16 +108,18 @@ gulp.task "scss", ->
   #   }))
   # .pipe $.autoprefixer 'last 2 version','ie 9'
   # .pipe(minifyCSS({keepBreaks:false}))
-  .pipe $.pleeease()
+  # .pipe $.pleeease()
   .pipe gulp.dest pkg.settings.dist+"style"
 
 
 #stylus
 gulp.task "stylus", ->
-  # .pipe($.pleeease())
   gulp.src pkg.settings.app+"stylus/style.styl"
-  .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
-  .pipe($.stylus(compress: true))
+  .pipe $.plumber
+    errorHandler: $.notify.onError('<%= error.message %>')
+  .pipe $.stylus
+    compress: true
+  .pipe $.pleeease()
   .pipe gulp.dest pkg.settings.dist+"style"
 
 
@@ -142,7 +136,7 @@ gulp.task "sprite", ->
     imgName: "sprite.png" # Sprite filename
     cssName: "_sprite.scss" # Output scss
     imgPath: "../images/sprite.png" # Output path
-    cssFormat: "scss" #フォーマット
+    cssFormat: "scss" #format
     cssVarMap: (sprite) ->
       sprite.name = "sprite-" + sprite.name # VarMap
       return
@@ -185,9 +179,12 @@ gulp.task 'styleguide:generate', ->
 
 
 gulp.task 'styleguide:applystyles', ->
-  return $.rubySass "app/sass/"
-    .on 'error', (err) ->
-       console.error('Error!', err.message)
+  return $.rubySass pkg.settings.app+"sass/",{
+        precision: 10
+        loadPath: require('node-neat').includePaths
+      }
+    .on 'error', (err)->
+      console.log err.message
     .pipe styleguide.applyStyles()
     .pipe gulp.dest(outputPath)
 

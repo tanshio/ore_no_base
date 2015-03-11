@@ -1,0 +1,64 @@
+
+
+
+
+$f-gothic: Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
+$f-mincho: "Times New Roman", "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "メイリオ", Meiryo, serif;
+$f-monospace: "Osaka－等幅", Osaka-mono, "ＭＳ ゴシック", "MS Gothic", monospace;
+$f-maru: "ヒラギノ丸ゴ ProN W4", "Hiragino Maru Gothic ProN", "メイリオ", Meiryo, fantasy;
+
+
+
+
+
+// Font-family
+//
+// $f-gothic - gothic
+// $f-mincho - mincho
+// $f-monospace - monospace
+// $f-maru - maru
+//
+// markup:
+// <div style='font-family: {$modifiers};'>{$modifiers}</div>
+//
+// Styleguide 2.1
+
+
+$primary-color: #1c3849;
+$secondary-color: #000000;
+
+
+// Colors and typography
+//
+// This section describes base colors and typography
+//
+// Styleguide 2.0
+
+// Colors and typography
+//
+// This section describes base colors and typography
+//
+// Styleguide 1.0
+
+// Main colors
+//
+// $primary-color - Primary color
+// $secondary-color - Secondary color
+// $primary-action-color - Primary button color
+// $default-action-color - Default button color and link color
+// $tertiary-color - Used for input hovers and hilights
+//
+// markup:
+// <div style="background: {$modifiers};" class="styleguide-color">{$modifiers}</div>
+//
+// Styleguide 1.1
+
+// Calculated colors
+//
+// .color_lighten - Lighter than default action color
+// .color_darken - Darker than default action color
+//
+// markup:
+// <div class="styleguide-color {$modifiers}"></div>
+//
+// Styleguide 1.1.1

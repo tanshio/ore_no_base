@@ -54,7 +54,8 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "browser": {
-    "jquery": "./bower_components/jquery/dist/jquery.min.js"
+    "jquery": "./bower_components/jquery/dist/jquery.min.js",
+    "snap.svg":"./bower_components/snap.svg/dist/snap.svg-min.js"
   },
   "browserify-shim": {
     "jquery": "$"
