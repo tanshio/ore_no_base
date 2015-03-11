@@ -13,8 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "velocity": "~1.2.0",
-    "jquery": "1.11.1"
+    "jquery": "1.11.2"
   },
   "devDependencies": {
     "snap.svg": "~0.3.0"

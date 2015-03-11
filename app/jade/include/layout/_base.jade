@@ -1,5 +1,7 @@
 //- base.jade
 doctype html
+block vars
+	- var custom = "variable"
 html(xmlns:og='http://ogp.me/ns#', xmlns:fb='https://www.facebook.com/2008/fbml')
 	head
 		block title
@@ -21,5 +23,5 @@ html(xmlns:og='http://ogp.me/ns#', xmlns:fb='https://www.facebook.com/2008/fbml'
 
 		block footer
 			footer
-				p あああ
+				p footer
 			script(src="js/main.js")
