@@ -1,0 +1,33 @@
+
+.l-container {
+	@include outer-container;
+}
+
+@for $i from 1 through 12 {
+	.l-grid-#{$i} {
+		@include span-columns($i);
+	}
+}
+
+
+// Grid
+//
+// .l-grid-1 - 1/12
+// .l-grid-2 - 2/12
+// .l-grid-3 - 3/12
+// .l-grid-4 - 4/12
+// .l-grid-5 - 5/12
+// .l-grid-6 - 6/12
+// .l-grid-7 - 7/12
+// .l-grid-8 - 8/12
+// .l-grid-9 - 9/12
+// .l-grid-10 - 10/12
+// .l-grid-11 - 11/12
+// .l-grid-12 - 12/12
+//
+// markup:
+// <div class="l-container cf">
+//   <div class="{$modifiers}" style="background:#ccc">あああ</div>
+// </div>
+//
+// Styleguide 6.1

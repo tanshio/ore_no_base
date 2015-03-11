@@ -1,7 +1,7 @@
 .u-embed {
   position: relative;
   height: 0;
-  padding-bottom: 56.25%;
+
 
   embed,
   iframe,
@@ -15,14 +15,23 @@
   }
 }
 
+.u-embed--16x9 {
+	padding-bottom: 56.25%;
+}
+
+.u-embed--1x1{
+	padding-bottom: 100%;
+}
+
 
 // Embed
 //
-// .u-embed  - 16x9
+// .u-embed--16x9  - 16x9 Responsive
+// .u-embed--1x1  - 1x1 Responsive
 //
 // markup:
-// <div class="u-embed">
-// <iframe width="560" height="315" src="https://www.youtube.com/embed/DwTinTO0o9I?list=UUAp7biVgschwGLlBTzncB2g" frameborder="0" allowfullscreen></iframe>
+// <div class="u-embed {$modifiers}">
+//   <iframe width="560" height="315" src="https://www.youtube.com/embed/DwTinTO0o9I?list=UUAp7biVgschwGLlBTzncB2g" frameborder="0" allowfullscreen></iframe>
 // </div>
 //
 // Styleguide 4.3
