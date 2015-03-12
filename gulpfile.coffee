@@ -103,6 +103,8 @@ gulp.task "scss", ->
       loadPath: require('node-neat').includePaths
     }
   )
+  .on 'error', (err)->
+    console.log err.message
   # .pipe(cmq({
   #     log: true
   #   }))
@@ -128,9 +130,9 @@ gulp.task "stylus", ->
 # 5. Images
 #****************************
 
-# 銈广儣銉┿偆銉堝寲
+# スプライト化
 gulp.task "sprite", ->
-  #銈广儣銉┿偆銉堛伀銇欍倠鎰夊揩銇敾鍍忛仈
+  #スプライトにする愉快な画像達
   spriteData = gulp.src pkg.settings.app+"/images/sprites/*.png"
   .pipe(spritesmith(
     imgName: "sprite.png" # Sprite filename
@@ -142,8 +144,8 @@ gulp.task "sprite", ->
       return
   ))
   spriteData.img.pipe gulp.dest("app/images/")
-  spriteData.img.pipe gulp.dest("dist/images/sprite") #imgName銇ф寚瀹氥仐銇熴偣銉椼儵銈ゃ儓鐢诲儚銇繚瀛樺厛
-  spriteData.css.pipe gulp.dest("app/sass/utils/") #cssName銇ф寚瀹氥仐銇焎ss銇繚瀛樺厛
+  spriteData.img.pipe gulp.dest("dist/images/sprite") #imgNameで指定したスプライト画像の保存先
+  spriteData.css.pipe gulp.dest("app/sass/utils/") #cssNameで指定したcssの保存先
   return
 
 
@@ -178,6 +180,7 @@ gulp.task 'styleguide:generate', ->
     .pipe gulp.dest(outputPath)
 
 
+
 gulp.task 'styleguide:applystyles', ->
   return $.rubySass pkg.settings.app+"sass/",{
         precision: 10
@@ -190,11 +193,18 @@ gulp.task 'styleguide:applystyles', ->
 
 
 
+gulp.task 'styleguide:static', ->
+  return gulp.src 'demo/**'
+    .pipe gulp.dest outputPath + '/demo'
+
+
+
+
 #****************************
 # 7. Tasks
 #****************************
 
-gulp.task 'styleguide', ['styleguide:generate', 'styleguide:applystyles']
+gulp.task 'styleguide', ['styleguide:static', 'styleguide:generate', 'styleguide:applystyles']
 
 # watch
 gulp.task "watch",['styleguide'], ->
@@ -210,8 +220,9 @@ gulp.task "watch",['styleguide'], ->
 
   # gulp.watch('app/**/*.jade', reload);
   # gulp.watch('app/**/*.scss', reload);
-  gulp.watch "app/**/*.scss", ["scss"]
+
   gulp.watch "app/**/*.scss", ['styleguide']
+  gulp.watch "app/**/*.scss", ["scss"]
   gulp.watch "app/**/*.js", ["js"]
   gulp.watch "app/**/*.coffee", ["script"]
 
