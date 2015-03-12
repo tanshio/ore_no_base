@@ -40,15 +40,21 @@
 	text-decoration: underline;
 }
 
+.u-text-point {
+	color: $point-color;
+	font-weight: bold;
+}
+
 // Text-style
 //
 // .u-text-bold - bold
 // .u-text-normal - normal
 // .u-text-italic - italic
 // .u-text-underline - underline
+// .u-text-point - point
 //
 // markup:
-// <div class="{$modifiers}">あああ</div>
+// <div class="{$modifiers}">text decorations</div>
 //
 // sg-wrapper:
 // <div class="wrapper"><sg-wrapper-content/></div>
