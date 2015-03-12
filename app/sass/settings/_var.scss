@@ -1,15 +1,29 @@
+/******************************
+Grid Settings
+*******************************/
+
+@import "bourbon";
+@import "neat";
+
+$column: 90px;
+$gutter: 30px;
+$grid-columns: 12;
+$max-width: 1200px;
+
+// Define your breakpoints
+$tablet: new-breakpoint(max-width 768px 8);
+$mobile: new-breakpoint(max-width 480px 4);
 
 
+/******************************
+Font settings
+*******************************/
 
-
+$f-size: 16px;
 $f-gothic: Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
 $f-mincho: "Times New Roman", "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "メイリオ", Meiryo, serif;
 $f-monospace: "Osaka－等幅", Osaka-mono, "ＭＳ ゴシック", "MS Gothic", monospace;
 $f-maru: "ヒラギノ丸ゴ ProN W4", "Hiragino Maru Gothic ProN", "メイリオ", Meiryo, fantasy;
-
-
-
-
 
 // Font-family
 //
@@ -34,31 +48,4 @@ $secondary-color: #000000;
 //
 // Styleguide 2.0
 
-// Colors and typography
-//
-// This section describes base colors and typography
-//
-// Styleguide 1.0
 
-// Main colors
-//
-// $primary-color - Primary color
-// $secondary-color - Secondary color
-// $primary-action-color - Primary button color
-// $default-action-color - Default button color and link color
-// $tertiary-color - Used for input hovers and hilights
-//
-// markup:
-// <div style="background: {$modifiers};" class="styleguide-color">{$modifiers}</div>
-//
-// Styleguide 1.1
-
-// Calculated colors
-//
-// .color_lighten - Lighter than default action color
-// .color_darken - Darker than default action color
-//
-// markup:
-// <div class="styleguide-color {$modifiers}"></div>
-//
-// Styleguide 1.1.1
