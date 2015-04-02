@@ -295,7 +295,7 @@ gulp.task 'provision', shell.task(
 gulp.task 'wp-init', () -> runSequence(
   'wp-dl',
   'wp-replace',
-  'wp-themeinit'
+  'wp-themeinit',
 )
 
 
