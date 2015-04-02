@@ -8,7 +8,8 @@
 # 4. StyleSheet
 # 5. Images
 # 6. StyleGuide
-# 7. Tasks
+# 7. StyleGuide
+# 8. Tasks
 
 #****************************
 # 1. Settings
@@ -18,12 +19,22 @@ pkg          = require './package.json'
 gulp         = require 'gulp'
 $            = require('gulp-load-plugins')()
 runSequence  = require 'run-sequence'
+replace      = require 'gulp-replace'
+shell        = require('gulp-shell')
+gulpif       = require('gulp-if')
 
 browserSync  = require 'browser-sync'
 reload       = browserSync.reload
 
 jade         = require 'gulp-jade'
-data         = require './data.json'
+
+fs = require 'fs';
+
+data = null
+fs.open './data.json','r', (err,fd) ->
+  if !err
+    require './data.json'
+
 
 browserify   = require 'browserify'
 source       = require 'vinyl-source-stream'
@@ -35,6 +46,28 @@ spritesmith  = require 'gulp.spritesmith'
 styleguide   = require 'sc5-styleguide'
 outputPath   = 'styleguide'
 
+
+
+cssbanner = ['/*'
+  'Theme Name: <%= pkg.title %>'
+  'Theme URI: <%= pkg.homepage %>'
+  'Author: <%= pkg.author.name %>'
+  'Author URI: <%= pkg.author.url %>'
+  'Description: <%= pkg.description %>'
+  'Version: <%= pkg.version %>'
+  'License: GNU General Public License v2 or later'
+  'License URI: http://www.gnu.org/licenses/gpl-2.0.html'
+  'Text Domain: <%= pkg.author.name %>'
+  'Tags:'
+  ''
+  'This theme, like WordPress, is licensed under the GPL.'
+  'Use it to make something cool, have fun, and share what you\'ve learned with others.'
+  ''
+  'Resetting and rebuilding styles have been helped along thanks to the fine work of'
+  'Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html'
+  'along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/'
+  'and Blueprint http://www.blueprintcss.org/'
+  '*/'].join('\n')
 
 
 #****************************
@@ -52,7 +85,7 @@ gulp.task "jade", ->
       console.log(pkg.name)
       console.log(data[path])
       console.log(data[path]["title"])
-      return {"title":data[path]["title"],"keyword":data[path]["keyword"],"desc":data[path]["desc"]}
+      return {"title":data[path]["title"],"keyword":data[path]["keyword"],"disc":data[path]["disc"],"path":path}
     else
       return {"title":null,"keyword":null,"desc":null}
   ))
@@ -77,6 +110,7 @@ gulp.task "script", ->
   # .pipe buffer()
   # .pipe $.uglify()
   .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
+  .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/js/'
 
 
 # VanillaJS
@@ -86,9 +120,10 @@ gulp.task "scriptjs", ->
   .bundle()
   .on 'error', handleErrors
   .pipe source 'main.js' # Output filename
-  # .pipe buffer()
+  .pipe buffer()
   # .pipe $.uglify()
   .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
+
 
 
 
@@ -105,13 +140,13 @@ gulp.task "scss", ->
   )
   .on 'error', (err)->
     console.log err.message
-  # .pipe(cmq({
-  #     log: true
-  #   }))
-  # .pipe $.autoprefixer 'last 2 version','ie 9'
-  # .pipe(minifyCSS({keepBreaks:false}))
-  # .pipe $.pleeease()
+  .pipe $.pleeease(
+    "rem": false,
+  )
   .pipe gulp.dest pkg.settings.dist+"style"
+  .pipe $.header cssbanner, pkg : pkg
+  .pipe replace("../", "./")
+  .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
 
 
 #stylus
@@ -130,9 +165,9 @@ gulp.task "stylus", ->
 # 5. Images
 #****************************
 
-# スプライト化
+# 銈广儣銉┿偆銉堝寲
 gulp.task "sprite", ->
-  #スプライトにする愉快な画像達
+  #銈广儣銉┿偆銉堛伀銇欍倠鎰夊揩銇敾鍍忛仈
   spriteData = gulp.src pkg.settings.app+"/images/sprites/*.png"
   .pipe(spritesmith(
     imgName: "sprite.png" # Sprite filename
@@ -144,20 +179,21 @@ gulp.task "sprite", ->
       return
   ))
   spriteData.img.pipe gulp.dest("app/images/")
-  spriteData.img.pipe gulp.dest("dist/images/sprite") #imgNameで指定したスプライト画像の保存先
-  spriteData.css.pipe gulp.dest("app/sass/utils/") #cssNameで指定したcssの保存先
+  spriteData.img.pipe gulp.dest("dist/images/sprite") #imgName銇ф寚瀹氥仐銇熴偣銉椼儵銈ゃ儓鐢诲儚銇繚瀛樺厛
+  spriteData.css.pipe gulp.dest("app/sass/utils/") #cssName銇ф寚瀹氥仐銇焎ss銇繚瀛樺厛
   return
 
 
 # Optimize Images
 gulp.task "images", ->
   return gulp.src pkg.settings.app+'/images/**/*'
-    .pipe(changed( pkg.settings.dist+'images' ))
+    # .pipe($.changed( pkg.settings.dist+'images' ))
     .pipe($.imagemin({
       progressive: true,
       interlaced: true
     }))
     .pipe gulp.dest pkg.settings.dist+'images'
+    .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/images'
     .pipe($.size({title: 'images'}));
 
 gulp.task "clear", (i_done) ->
@@ -200,14 +236,80 @@ gulp.task 'styleguide:static', ->
 
 
 
+
+
 #****************************
-# 7. Tasks
+# 8. WordPress
+#****************************
+
+# Download VCCW
+gulp.task 'wp-dl', shell.task(
+  ['git clone https://github.com/vccw-team/vccw'+' '+pkg.name]
+)
+
+# Plugin Settings
+plugin = null
+if pkg.settings.wp.plugin
+  plugin = true
+  pluginArr = ['plugins:']
+  pkg.settings.wp.plugin.forEach (v)->
+    pluginArr.push('  - '+v)
+  pluginList = pluginArr.join('\n')
+
+
+
+# Setting VCCW
+gulp.task 'wp-replace', ->
+  gulp.src pkg.name+'/provision/default.yml'
+  .pipe replace "Welcome to the VCCW", pkg.title
+  .pipe replace "wordpress.local", pkg.name+".dev"
+  .pipe replace "en_US", "ja"
+  .pipe replace "192.168.33.10", pkg.settings.wp.ip
+  .pipe gulpif plugin, replace /plugins:[\s\S]*tinymce-templates/,pluginList
+  .pipe gulp.dest pkg.name+'/provision/'
+
+# Download _s
+gulp.task 'wp-themeinit', shell.task(
+  ['git clone https://github.com/Automattic/_s'+' '+pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name]
+)
+
+
+
+# vagrant up
+gulp.task 'up', shell.task(
+  ['cd '+pkg.name+' && vagrant up']
+)
+
+# vagrant halt
+gulp.task 'halt', shell.task(
+  ['cd '+pkg.name+' && vagrant halt']
+)
+
+# vagrant provison
+gulp.task 'provision', shell.task(
+  ['cd '+pkg.name+' && agrant provision']
+)
+
+
+# Wordpress init
+gulp.task 'wp-init', () -> runSequence(
+  'wp-dl',
+  'wp-replace',
+  'wp-themeinit'
+)
+
+
+
+#****************************
+# 8. Tasks
 #****************************
 
 gulp.task 'styleguide', ['styleguide:static', 'styleguide:generate', 'styleguide:applystyles']
 
+
+
 # watch
-gulp.task "watch",['styleguide'], ->
+gulp.task "watch", ->
   browserSync.init(
     {
       server:
@@ -215,21 +317,40 @@ gulp.task "watch",['styleguide'], ->
     }
   )
 
-  # gulp.watch('app/**/*.jade', reload);
+  # gulp.watch "app/**/*.scss", ['styleguide']
+  gulp.watch "app/**/*.scss", ["scss"]
+  gulp.watch "app/**/*.js", ["js"]
+  gulp.watch "app/**/*.coffee", ["script"]
+
+
+  gulp.watch "dist/**/*.html", reload
+  gulp.watch "dist/**/*.css", reload
+  gulp.watch "dist/**/*.js", reload
+  return
+
+
+
+# watch
+gulp.task "wp-watch", ->
+  browserSync.init(
+    {
+      proxy:"http://"+pkg.name+".dev"
+    }
+  )
+
+
   gulp.watch "app/**/*.jade", ["jade"]
 
   # gulp.watch('app/**/*.jade', reload);
   # gulp.watch('app/**/*.scss', reload);
 
-  gulp.watch "app/**/*.scss", ['styleguide']
+  # gulp.watch "app/**/*.scss", ['styleguide']
   gulp.watch "app/**/*.scss", ["scss"]
   gulp.watch "app/**/*.js", ["js"]
   gulp.watch "app/**/*.coffee", ["script"]
 
-  # gulp.watch('app/**/*.scss', reload);
-  # gulp.watch('app/**/*.styl', reload);
-  # gulp.watch('app/**/*.styl', ['stylus']);
-  gulp.watch "dist/**/*.html", reload
-  gulp.watch "dist/**/*.css", reload
-  gulp.watch "dist/**/*.js", reload
+
+  gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.php', reload
+  gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.css', reload
+  gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.js', reload
   return
