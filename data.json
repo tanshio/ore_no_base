@@ -2,6 +2,6 @@
   "index":{
     "title": "タイトル",
     "keyword": "キーワード",
-    "disc": "説明文"
+    "desc": "説明文"
   }
 }

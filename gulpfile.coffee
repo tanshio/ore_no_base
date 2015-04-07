@@ -33,7 +33,7 @@ fs = require 'fs';
 data = null
 fs.open './data.json','r', (err,fd) ->
   if !err
-    require './data.json'
+    data = require './data.json'
 
 
 browserify   = require 'browserify'
