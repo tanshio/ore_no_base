@@ -8,7 +8,7 @@
 # 4. StyleSheet
 # 5. Images
 # 6. StyleGuide
-# 7. StyleGuide
+# 7. WordPress
 # 8. Tasks
 
 #****************************
@@ -239,7 +239,7 @@ gulp.task 'styleguide:static', ->
 
 
 #****************************
-# 8. WordPress
+# 7. WordPress
 #****************************
 
 # Download VCCW
