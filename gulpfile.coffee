@@ -83,11 +83,11 @@ gulp.task "jade", ->
       path = file.path.match(reg)[1]
       console.log(path)
       console.log(pkg.name)
-      console.log(data[path])
-      console.log(data[path]["title"])
-      return {"title":data[path]["title"],"keyword":data[path]["keyword"],"disc":data[path]["disc"],"path":path}
-    else
-      return {"title":null,"keyword":null,"desc":null}
+      if data[path]
+      
+        return {"title":data[path]["title"],"keyword":data[path]["keyword"],"disc":data[path]["disc"],"path":path}
+      else
+        return {"title":null,"keyword":null,"desc":null}
   ))
   .pipe(jade(
     pretty: true
