@@ -75,9 +75,9 @@ cssbanner = ['/*'
 #****************************
 gulp.task "jade", ->
   YOUR_LOCALS = {}
-  gulp.src(pkg.settings.app+"/jade/*.jade")
-  .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
-  .pipe($.data((file)->
+  gulp.src pkg.settings.app+"/jade/*.jade"
+  .pipe $.plumber({errorHandler: $.notify.onError('<%= error.message %>')})
+  .pipe $.data (file)->
     if file
       reg = /\/([A-Za-z_0-9]+?)\.jade/
       path = file.path.match(reg)[1]
@@ -88,10 +88,10 @@ gulp.task "jade", ->
         return {"title":data[path]["title"],"keyword":data[path]["keyword"],"disc":data[path]["disc"],"path":path}
       else
         return {"title":null,"keyword":null,"desc":null}
-  ))
-  .pipe(jade(
-    pretty: true
-  )).pipe gulp.dest(pkg.settings.dist)
+
+  .pipe(jade(pretty: true))
+  .pipe gulp.dest pkg.settings.dist
+  .on 'end' , reload
 
 
 
@@ -111,6 +111,7 @@ gulp.task "script", ->
   # .pipe $.uglify()
   .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
   .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/js/'
+  .on 'end' , reload
 
 
 # VanillaJS
@@ -123,6 +124,7 @@ gulp.task "scriptjs", ->
   .pipe buffer()
   # .pipe $.uglify()
   .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
+  .on 'end' , reload
 
 
 
@@ -144,9 +146,10 @@ gulp.task "scss", ->
     "rem": false,
   )
   .pipe gulp.dest pkg.settings.dist+"style"
-  .pipe $.header cssbanner, pkg : pkg
-  .pipe replace("../", "./")
-  .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
+  # .pipe $.header cssbanner, pkg : pkg
+  # .pipe replace("../", "./")
+  # .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
+  .on 'end' , reload
 
 
 #stylus
@@ -158,6 +161,7 @@ gulp.task "stylus", ->
     compress: true
   .pipe $.pleeease()
   .pipe gulp.dest pkg.settings.dist+"style"
+  .on 'end' , reload
 
 
 
@@ -194,7 +198,7 @@ gulp.task "images", ->
     }))
     .pipe gulp.dest pkg.settings.dist+'images'
     .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/images'
-    .pipe($.size({title: 'images'}));
+    .pipe $.size({title: 'images'})
 
 gulp.task "clear", (i_done) ->
   return $.cache.clearAll(i_done);
@@ -322,12 +326,7 @@ gulp.task "watch", ->
   gulp.watch "app/**/*.js", ["js"]
   gulp.watch "app/**/*.coffee", ["script"]
 
-
-  gulp.watch "dist/**/*.html", reload
-  gulp.watch "dist/**/*.css", reload
-  gulp.watch "dist/**/*.js", reload
   return
-
 
 
 # watch
@@ -340,10 +339,6 @@ gulp.task "wp-watch", ->
 
 
   gulp.watch "app/**/*.jade", ["jade"]
-
-  # gulp.watch('app/**/*.jade', reload);
-  # gulp.watch('app/**/*.scss', reload);
-
   # gulp.watch "app/**/*.scss", ['styleguide']
   gulp.watch "app/**/*.scss", ["scss"]
   gulp.watch "app/**/*.js", ["js"]
@@ -353,4 +348,5 @@ gulp.task "wp-watch", ->
   gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.php', reload
   gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.css', reload
   gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.js', reload
+
   return
