@@ -16,12 +16,15 @@
 #****************************
 
 pkg          = require './package.json'
+
+watchify     = require 'watchify'
+
 gulp         = require 'gulp'
 $            = require('gulp-load-plugins')()
 runSequence  = require 'run-sequence'
 replace      = require 'gulp-replace'
-shell        = require('gulp-shell')
-gulpif       = require('gulp-if')
+shell        = require 'gulp-shell'
+gulpif       = require 'gulp-if'
 
 browserSync  = require 'browser-sync'
 reload       = browserSync.reload
@@ -84,7 +87,7 @@ gulp.task "jade", ->
       console.log(path)
       console.log(pkg.name)
       if data[path]
-      
+
         return {"title":data[path]["title"],"keyword":data[path]["keyword"],"disc":data[path]["disc"],"path":path}
       else
         return {"title":null,"keyword":null,"desc":null}
@@ -98,33 +101,48 @@ gulp.task "jade", ->
 #****************************
 # 3. JavaScript
 #****************************
+#coffee
 
-# Coffee
-gulp.task "script", ->
-  browserify
-    entries: './'+pkg.settings.app+'coffee/main.coffee'
-    extensions: ['.coffee'] # Use CoffeeScript
-  .bundle()
-  .on 'error', handleErrors
-  .pipe source 'main.js' # Output filename
-  # .pipe buffer()
-  # .pipe $.uglify()
-  .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
-  .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/js/'
-  .on 'end' , reload
+c_opts = {
+        entries: './'+pkg.settings.app+'coffee/main.coffee'
+        extensions: ['.coffee'] # Use CoffeeScript
+       }
+
+c_b    = watchify(browserify(c_opts))
+
+bundle = ->
+  return c_b.bundle()
+    .on 'error', handleErrors
+    .pipe source 'main.js' # Output filename
+    # .pipe buffer()
+    # .pipe $.uglify()
+    .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
+    .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/js/'
+    .on 'end' , reload
 
 
-# VanillaJS
-gulp.task "scriptjs", ->
-  browserify
-    entries: './'+pkg.settings.app+'js/main.js'
-  .bundle()
-  .on 'error', handleErrors
-  .pipe source 'main.js' # Output filename
-  .pipe buffer()
-  # .pipe $.uglify()
-  .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
-  .on 'end' , reload
+
+#VanillaJS
+gulp.task "script", bundle
+
+opts = {
+        entries: './'+pkg.settings.app+'js/main.js'
+        transform: [ 'babelify' ]
+       }
+
+b    = watchify(browserify(opts))
+
+bundle = ->
+  return b.bundle()
+    .on 'error', handleErrors
+    .pipe source 'main.js' # Output filename
+    # .pipe buffer()
+    # .pipe $.uglify()
+    .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
+    .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/js/'
+    .on 'end' , reload
+
+gulp.task "js", bundle
 
 
 
@@ -134,22 +152,43 @@ gulp.task "scriptjs", ->
 #****************************
 
 #SCSS
-gulp.task "scss", ->
-  $.rubySass(pkg.settings.app+"sass/",{
-      precision: 10
-      loadPath: require('node-neat').includePaths
-    }
-  )
-  .on 'error', (err)->
-    console.log err.message
-  .pipe $.pleeease(
-    "rem": false,
-  )
-  .pipe gulp.dest pkg.settings.dist+"style"
-  # .pipe $.header cssbanner, pkg : pkg
-  # .pipe replace("../", "./")
-  # .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
-  .on 'end' , reload
+
+#ruby-sass
+# gulp.task "scss", ->
+#   $.rubySass(pkg.settings.app+"sass/",{
+#       precision: 10
+#       loadPath: require('node-neat').includePaths
+#     }
+#   )
+#   .on 'error', (err)->
+#     console.log err.message
+#   .pipe $.pleeease(
+#     "rem": false,
+#   )
+#   .pipe gulp.dest pkg.settings.dist+"style"
+#   # .pipe $.header cssbanner, pkg : pkg
+#   # .pipe replace("../", "./")
+#   # .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
+#   .on 'end' , reload
+
+# lissass
+gulp.task 'scss', ->
+  gulp.src(pkg.settings.app+"sass/style.scss")
+    .pipe($.sass({
+      includePaths: require('node-neat').includePaths
+    }))
+    .on 'error', (err)->
+      console.log err.message
+    .pipe $.pleeease(
+      "rem": false,
+    )
+    .pipe gulp.dest pkg.settings.dist+"style"
+    # .pipe $.header cssbanner, pkg : pkg
+    # .pipe replace("../", "./")
+    # .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
+    .on 'end' , reload
+
+
 
 
 #stylus
