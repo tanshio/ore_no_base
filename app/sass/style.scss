@@ -3,9 +3,3 @@
 @import 'core';
 @import 'layouts';
 @import 'modules';
-
-nav {
-  @include media-tab {
-    display: none;
-  }
-}
