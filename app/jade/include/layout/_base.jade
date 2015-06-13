@@ -1,27 +1,27 @@
 //- base.jade
 doctype html
 block vars
-	- var custom = "variable"
+  - var custom = "variable"
 html(xmlns:og='http://ogp.me/ns#', xmlns:fb='https://www.facebook.com/2008/fbml')
-	head
-		block title
-			//- - var title = "aaa";
-			title #{aaa}
+  head
+    block title
+      //- - var title = "aaa";
+      title #{aaa}
 
-		block meta
-			include ../meta/_default
+    block meta
+      include ../meta/_default
 
-	body
-		block header
-			header
-				nav
-					ul
-						li top
+  body
+    block header
+      header
+        nav
+          ul
+            li top
 
 
-		block content
+    block content
 
-		block footer
-			footer
-				p footer
-			script(src="js/main.js")
+    block footer
+      footer
+        p footer
+      script(src="js/main.js")
