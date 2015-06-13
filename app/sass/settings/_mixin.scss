@@ -40,13 +40,13 @@ mixin
 
 
 @mixin media-tab() {
-	@media only screen and (max-width: $tab) {
+	@include media($tab) {
 		@content;
 	}
 }
 
 @mixin media-smp() {
-	@media only screen and (max-width: $smp) {
+	@include media($smp) {
 		@content;
 	}
 }
