@@ -1,6 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
 
 html {
 	font-size: $f-size;
+}
+
+img {
+  max-width: 100%;
 }
 
 
@@ -102,7 +110,7 @@ html {
 //      <textarea placeholder="input text"></textarea>
 //    </dd>
 //   </dl>
-//   <button>投稿する</button>
+//   <button>謚慕ｨｿ縺吶ｋ</button>
 // </form>
 //
 // Styleguide 1.5

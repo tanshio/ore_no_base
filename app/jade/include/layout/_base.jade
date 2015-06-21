@@ -2,6 +2,9 @@
 doctype html
 block vars
   - var custom = "variable"
+  if path === 'index'
+    - path = 'home'
+
 html(xmlns:og='http://ogp.me/ns#', xmlns:fb='https://www.facebook.com/2008/fbml')
   head
     block title
@@ -11,7 +14,7 @@ html(xmlns:og='http://ogp.me/ns#', xmlns:fb='https://www.facebook.com/2008/fbml'
     block meta
       include ../meta/_default
 
-  body
+  body(class='#{path}')
     block header
       header
         nav
