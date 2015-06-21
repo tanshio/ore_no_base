@@ -10,32 +10,12 @@ $gutter: 30px;
 $grid-columns: 12;
 $max-width: 1200px;
 
-// Define your breakpoints
-$tab: new-breakpoint(max-width 768px 8);
-$smp: new-breakpoint(max-width 480px 4);
+$sm: 640px;
+$md: 970px;
 
 
-/******************************
-Font settings
-*******************************/
 
-$f-size: 16px;
-$f-gothic: Verdana, Roboto, "Droid Sans", "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
-$f-mincho: "Times New Roman", "游明朝", YuMincho, "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "メイリオ", Meiryo, serif;
-$f-monospace: "Osaka－等幅", Osaka-mono, "ＭＳ ゴシック", "MS Gothic", monospace;
-$f-maru: "ヒラギノ丸ゴ ProN W4", "Hiragino Maru Gothic ProN", "メイリオ", Meiryo, fantasy;
-
-// Font-family
-//
-// $f-gothic - gothic
-// $f-mincho - mincho
-// $f-monospace - monospace
-// $f-maru - maru
-//
-// markup:
-// <div style='font-family: {$modifiers};'>{$modifiers}</div>
-//
-// Styleguide 2.1
+@import "./var/font";
 
 
 $primary-color: #1c3849;
