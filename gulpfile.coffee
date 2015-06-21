@@ -47,6 +47,7 @@ handleErrors = require './util/handle.coffee'
 spritesmith  = require 'gulp.spritesmith'
 
 styleguide   = require 'sc5-styleguide'
+hologram     = require 'gulp-hologram'
 outputPath   = 'styleguide'
 
 
@@ -110,7 +111,7 @@ c_opts = {
 
 c_b    = watchify(browserify(c_opts))
 
-bundle = ->
+c_bundle = ->
   return c_b.bundle()
     .on 'error', handleErrors
     .pipe source 'main.js' # Output filename
@@ -123,7 +124,7 @@ bundle = ->
 
 
 #VanillaJS
-gulp.task "script", bundle
+gulp.task "script", c_bundle
 
 opts = {
         entries: './'+pkg.settings.app+'js/main.js'
@@ -140,7 +141,7 @@ bundle = ->
     # .pipe $.uglify()
     .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
     .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/js/'
-    .on 'end' , reload
+
 
 gulp.task "js", bundle
 
@@ -174,11 +175,13 @@ gulp.task "js", bundle
 # lissass
 gulp.task 'scss', ->
   gulp.src(pkg.settings.app+"sass/style.scss")
+    .pipe $.plumber
+      errorHandler: $.notify.onError('<%= error.message %>')
     .pipe($.sass({
       includePaths: require('node-neat').includePaths
     }))
-    .on 'error', (err)->
-      console.log err.message
+    # .on 'error', (err)->
+    #   console.log err.message
     .pipe $.pleeease(
       "rem": false,
     )
@@ -186,7 +189,8 @@ gulp.task 'scss', ->
     # .pipe $.header cssbanner, pkg : pkg
     # .pipe replace("../", "./")
     # .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
-    .on 'end' , reload
+    # .on 'end' , reload
+
 
 
 
@@ -237,6 +241,7 @@ gulp.task "images", ->
     }))
     .pipe gulp.dest pkg.settings.dist+'images'
     .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/images'
+    .pipe gulp.dest pkg.name+'/www/wordpress/images'
     .pipe $.size({title: 'images'})
 
 gulp.task "clear", (i_done) ->
@@ -248,37 +253,11 @@ gulp.task "clear", (i_done) ->
 # 6. StyleGuide
 #****************************
 
-gulp.task 'styleguide:generate', ->
-  return gulp.src('app/**/*.scss')
-    .pipe styleguide.generate {
-        title: 'My Styleguide',
-        server: true,
-        rootPath: outputPath,
-        overviewPath: 'README.md'
-      }
-    .pipe gulp.dest(outputPath)
-
-
-
-gulp.task 'styleguide:applystyles', ->
-  return $.rubySass pkg.settings.app+"sass/",{
-        precision: 10
-        loadPath: require('node-neat').includePaths
-      }
-    .on 'error', (err)->
-      console.log err.message
-    .pipe styleguide.applyStyles()
-    .pipe gulp.dest(outputPath)
-
-
-
-gulp.task 'styleguide:static', ->
-  return gulp.src 'demo/**'
-    .pipe gulp.dest outputPath + '/demo'
-
-
-
-
+gulp.task 'style', ['scss'], ()->
+  configGlob = './styleguide/hologram_config.yml';
+  gulp.src( configGlob )
+    .pipe(hologram());
+  .on 'end' , reload
 
 
 #****************************
@@ -362,9 +341,8 @@ gulp.task "watch", ->
 
   gulp.watch "app/**/*.jade", ["jade"]
   # gulp.watch "app/**/*.scss", ['styleguide']
-  gulp.watch "app/**/*.scss", ["scss"]
-  gulp.watch "app/**/*.js", ["js"]
-  gulp.watch "app/**/*.coffee", ["script"]
+  gulp.watch "app/**/*.scss", ["style"]
+  gulp.watch "app/**/*.js", ["style"]
 
   return
 
@@ -379,10 +357,9 @@ gulp.task "wp-watch", ->
 
 
   gulp.watch "app/**/*.jade", ["jade"]
-  # gulp.watch "app/**/*.scss", ['styleguide']
-  gulp.watch "app/**/*.scss", ["scss"]
-  gulp.watch "app/**/*.js", ["js"]
-  gulp.watch "app/**/*.coffee", ["script"]
+
+  gulp.watch "app/**/*.scss", ["style"]
+  gulp.watch "app/**/*.js", ["style"]
 
 
   gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.php', reload

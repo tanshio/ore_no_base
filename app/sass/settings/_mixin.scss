@@ -24,13 +24,13 @@ mixin
 
 
 /******************************
-е┐е╓еье├е╚╙├д╬есе╟егевепеиеъ
+уВ┐уГЦуГмуГГуГИхЦШуБоуГбуГЗуВгуВвуВпуВиуГк
 @mixin media-tab() {
 	@media only screen and (max-width: $tab) {
 		@content;
 	}
 }
-е╣е▐е█╙├д╬есе╟егевепеиеъ
+уВ╣уГЮуГЫхЦШуБоуГбуГЗуВгуВвуВпуВиуГк
 @mixin media-smp() {
 	@media only screen and (max-width: $smp) {
 		@content;
