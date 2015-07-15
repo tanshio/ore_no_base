@@ -102,26 +102,6 @@ gulp.task "jade", ->
 #****************************
 # 3. JavaScript
 #****************************
-#coffee
-
-c_opts = {
-        entries: './'+pkg.settings.app+'coffee/main.coffee'
-        extensions: ['.coffee'] # Use CoffeeScript
-       }
-
-c_b    = watchify(browserify(c_opts))
-
-c_bundle = ->
-  return c_b.bundle()
-    .on 'error', handleErrors
-    .pipe source 'main.js' # Output filename
-    # .pipe buffer()
-    # .pipe $.uglify()
-    .pipe gulp.dest pkg.settings.dist+"js/" # Output directory
-    .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/js/'
-    .on 'end' , reload
-
-
 
 #VanillaJS
 gulp.task "script", c_bundle

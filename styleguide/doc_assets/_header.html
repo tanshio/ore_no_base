@@ -1,0 +1,53 @@
+<% nameScope = @config['name_scope'] %>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>a brand new styleguide: <%= title %></title>
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="./css/styleguide.css">
+  </head>
+  <body>
+    <div class="sg-sidebar">
+
+      <% catWrappers = Array.new %>
+      <% @categories.each do |cat| %>
+        <% catWrapperName = cat[0].split(nameScope).first %>
+        <% if not catWrappers.include?(catWrapperName) %>
+          <% catWrappers.push(catWrapperName) %>
+        <% end %>
+      <% end %>
+
+      <nav class="cortana-nav">
+        <ul>
+          <% if file_name.include?('index.html') %>
+            <li><a class="active" href="index.html">Home</a></li>
+          <% else %>
+            <li><a href="index.html">Home</a></li>
+          <% end %>
+        </ul>
+        <% catWrappers.each do |wrapper| %>
+          <h3><%= wrapper %></h3>
+          <ul>
+          <% @categories.each do |cat| %>
+            <% if cat[0].include?(wrapper) %>
+              <% catName = cat[0].split(nameScope).last %>
+              <% if catName == title.split(nameScope).last %>
+                <li><a class="active" href="<%= cat[1] %>"><%= catName %></a></li>
+              <% else %>
+                <li><a href="<%= cat[1] %>"><%= catName %></a></li>
+              <% end %>
+            <% end %>
+          <% end %>
+          </ul>
+        <% end %>
+      </nav>
+    </div>
+
+    <div class="sg-content">
+      <section>
+        <ul>
+        <% @blocks.each do |b| %>
+          <li><a href="#<%= b[:name] %>"><%= b[:title] %></a></li>
+        <% end %>
+        </ul>

@@ -4,9 +4,6 @@ dist
 # Mac
 .DS_Store
 
-#styleguide
-styleguide/
-
 # sublime
 *.sublime-project
 *.sublime-workspace
@@ -16,6 +13,10 @@ bower_components
 
 # sass
 .sass-cache/
+
+# Psd
+psd
+*.psd
 
 # Logs
 logs
