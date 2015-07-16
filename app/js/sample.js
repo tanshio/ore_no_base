@@ -1,5 +1,5 @@
 require("jquery");
-Masonry = require('masonry-layout');
+// Masonry = require('masonry-layout');
 console.log("sample");
 
 /*doc
