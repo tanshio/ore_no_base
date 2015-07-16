@@ -104,7 +104,6 @@ gulp.task "jade", ->
 #****************************
 
 #VanillaJS
-gulp.task "script", c_bundle
 
 opts = {
         entries: './'+pkg.settings.app+'js/main.js'
@@ -233,7 +232,7 @@ gulp.task "clear", (i_done) ->
 # 6. StyleGuide
 #****************************
 
-gulp.task 'style', ['scss'], ()->
+gulp.task 'style', ['scss','js'], ()->
   configGlob = './styleguide/hologram_config.yml';
   gulp.src( configGlob )
     .pipe(hologram());
