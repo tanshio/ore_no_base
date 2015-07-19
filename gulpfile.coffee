@@ -46,7 +46,6 @@ handleErrors = require './util/handle.coffee'
 
 spritesmith  = require 'gulp.spritesmith'
 
-styleguide   = require 'sc5-styleguide'
 hologram     = require 'gulp-hologram'
 outputPath   = 'styleguide'
 
