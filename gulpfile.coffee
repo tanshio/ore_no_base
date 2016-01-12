@@ -31,12 +31,30 @@ reload       = browserSync.reload
 
 jade         = require 'gulp-jade'
 
-fs = require 'fs';
+minimist     = require 'minimist'
+gutil        = require 'gulp-util'
 
-data = null
-fs.open './data.json','r', (err,fd) ->
+minimistOption =
+  string: 'env',
+  default:
+    env: process.env.NODE_ENV || 'development'
+
+options = minimist(process.argv.slice(2), minimistOption)
+
+isProduction = false
+if(options.env == 'production')
+  isProduction = true
+
+gutil.log '[env]', gutil.colors.yellow(options.env), '[isProduction]', gutil.colors.yellow(isProduction)
+
+
+fs           = require 'fs';
+
+data         = null
+
+fs.open './settings/data.json','r', (err,fd) ->
   if !err
-    data = require './data.json'
+    data = require './settings/data.json'
 
 
 browserify   = require 'browserify'
@@ -46,8 +64,8 @@ handleErrors = require './util/handle.coffee'
 
 spritesmith  = require 'gulp.spritesmith'
 
-hologram     = require 'gulp-hologram'
-outputPath   = 'styleguide'
+# hologram     = require 'gulp-hologram'
+# outputPath   = 'styleguide'
 
 
 
@@ -78,17 +96,23 @@ cssbanner = ['/*'
 #****************************
 gulp.task "jade", ->
   YOUR_LOCALS = {}
-  gulp.src pkg.settings.app+"/jade/*.jade"
+  gulp.src [pkg.settings.app+"/jade/**/*.jade","!"+pkg.settings.app+"/jade/include/**/*.jade"]
   .pipe $.plumber({errorHandler: $.notify.onError('<%= error.message %>')})
   .pipe $.data (file)->
     if file
-      reg = /\/([A-Za-z_0-9]+?)\.jade/
-      path = file.path.match(reg)[1]
-      console.log(path)
-      console.log(pkg.name)
-      if data[path]
+      console.log(file.path)
+      root = process.cwd()
+      path2 = file.path;
 
-        return {"title":data[path]["title"],"keyword":data[path]["keyword"],"disc":data[path]["disc"],"path":path}
+      textAfter = path2.replace(root+"/app/jade/","")
+
+      console.log(textAfter)
+      reg = /\/([A-Za-z_0-9]+?)\.jade/
+      path = textAfter.replace(".jade","")
+      console.log(path)
+      if data[path]
+        console.log(data[path])
+        return {"title":data[path]["title"],"keyword":data[path]["keyword"],"desc":data[path]["desc"],"path":path}
       else
         return {"title":null,"keyword":null,"desc":null}
 
@@ -132,24 +156,6 @@ gulp.task "js", bundle
 
 #SCSS
 
-#ruby-sass
-# gulp.task "scss", ->
-#   $.rubySass(pkg.settings.app+"sass/",{
-#       precision: 10
-#       loadPath: require('node-neat').includePaths
-#     }
-#   )
-#   .on 'error', (err)->
-#     console.log err.message
-#   .pipe $.pleeease(
-#     "rem": false,
-#   )
-#   .pipe gulp.dest pkg.settings.dist+"style"
-#   # .pipe $.header cssbanner, pkg : pkg
-#   # .pipe replace("../", "./")
-#   # .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
-#   .on 'end' , reload
-
 # lissass
 gulp.task 'scss', ->
   gulp.src(pkg.settings.app+"sass/style.scss")
@@ -161,13 +167,14 @@ gulp.task 'scss', ->
     # .on 'error', (err)->
     #   console.log err.message
     .pipe $.pleeease(
+      "autoprefixer": { "browsers": ["ie 9"] },
       "rem": false,
     )
     .pipe gulp.dest pkg.settings.dist+"style"
     # .pipe $.header cssbanner, pkg : pkg
     # .pipe replace("../", "./")
     # .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
-    # .on 'end' , reload
+    .on 'end' , reload
 
 
 
@@ -205,7 +212,7 @@ gulp.task "sprite", ->
   ))
   spriteData.img.pipe gulp.dest("app/images/")
   spriteData.img.pipe gulp.dest("dist/images/sprite") #imgNameで指定したスプライト画像の保存先
-  spriteData.css.pipe gulp.dest("app/sass/utils/") #cssNameで指定したcssの保存先
+  spriteData.css.pipe gulp.dest("app/sass/utilities/") #cssNameで指定したcssの保存先
   return
 
 
@@ -231,11 +238,11 @@ gulp.task "clear", (i_done) ->
 # 6. StyleGuide
 #****************************
 
-gulp.task 'style', ['scss','js'], ()->
-  configGlob = './styleguide/hologram_config.yml';
-  gulp.src( configGlob )
-    .pipe(hologram());
-  .on 'end' , reload
+# gulp.task 'style', ['scss','js'], ()->
+#   configGlob = './styleguide/hologram_config.yml';
+#   gulp.src( configGlob )
+#     .pipe(hologram());
+#   .on 'end' , reload
 
 
 #****************************
@@ -319,8 +326,8 @@ gulp.task "watch", ->
 
   gulp.watch "app/**/*.jade", ["jade"]
   # gulp.watch "app/**/*.scss", ['styleguide']
-  gulp.watch "app/**/*.scss", ["style"]
-  gulp.watch "app/**/*.js", ["style"]
+  gulp.watch "app/**/*.scss", ["scss"]
+  gulp.watch "app/**/*.js", ["js"]
 
   return
 
@@ -336,12 +343,17 @@ gulp.task "wp-watch", ->
 
   gulp.watch "app/**/*.jade", ["jade"]
 
-  gulp.watch "app/**/*.scss", ["style"]
-  gulp.watch "app/**/*.js", ["style"]
+  gulp.watch "app/**/*.scss", ["scss"]
+  gulp.watch "app/**/*.js", ["js"]
 
 
   gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.php', reload
   gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.css', reload
   gulp.watch pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name+'/**/*.js', reload
+
+  return
+
+gulp.task 'default', ->
+
 
   return
