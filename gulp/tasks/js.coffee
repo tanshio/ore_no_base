@@ -7,11 +7,8 @@ config       = require '../../config/config.json'
 
 browserSync  = require "browser-Sync"
 
-
 webpack      = require "gulp-webpack"
 webpackConf  = require '../../webpack.config.js'
-
-b.on 'update', bundle
 
 gulp.task "js", ()->
   gulp.src config.js.src+'main.js'
