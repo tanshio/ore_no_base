@@ -16,15 +16,7 @@
 #****************************
 
 
-
-
-
 gulp         = require 'gulp'
-
-
-
-
-
 minimist     = require 'minimist'
 gutil        = require 'gulp-util'
 
@@ -40,9 +32,6 @@ if(options.env == 'production')
   isProduction = true
 
 gutil.log '[env]', gutil.colors.yellow(options.env), '[isProduction]', gutil.colors.yellow(isProduction)
-
-
-
 
 requireDir = require('require-dir');
 requireDir("./gulp/tasks", { recurse: true });
