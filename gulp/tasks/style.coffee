@@ -46,7 +46,7 @@ gulp.task 'scss', ->
     # .pipe replace("../", "./")
     # .pipe gulp.dest pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name
     .pipe gulp.dest config.scss.dist
-    .on "end" , browserSync.stream
+    .on "end" , browserSync.reload
 
 
 
