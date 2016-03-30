@@ -1,6 +1,11 @@
 {
   "root": {
-    "dist": "dist"
+    "dist": "dist",
+    "dev": "false"
+  },
+  "server": {
+    "dev":"http://dev.tanshio.net/",
+    "production":"http://tanshio.net/"
   },
   "browserSync" : {
     "server": {
@@ -47,7 +52,6 @@
         "wordpress-seo"
       ]
     },
-
     "author": {
       "name":"tanshio",
       "url":"http://tanshio.net"

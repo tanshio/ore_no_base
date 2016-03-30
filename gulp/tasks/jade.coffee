@@ -26,11 +26,28 @@ gulp.task "jade", ->
       textAfter = origin.replace root+"/"+config.jade.src,""
       path = textAfter.replace ".jade",""
       if data[path]
-        console.log(data[path])
+
+        site_url = ""
+        page_url = ""
+
+        if config.root.dev == "false"
+          site_url = config.server.dev
+        else
+          site_url = config.server.production
+
+        urlTemp = path.split("/")
+
+        if path == "index"
+          page_url = ""
+        else
+          page_url = path+".html"
+
         return {
           "title":data[path]["title"],
           "keyword":data[path]["keyword"],
           "desc":data[path]["desc"],"path":path
+          "url":site_url+page_url,
+          "site_name":data["index"]["title"]
         }
 
 
