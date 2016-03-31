@@ -10,6 +10,12 @@ browserSync  = require "browser-Sync"
 webpack      = require "gulp-webpack"
 webpackConf  = require '../../webpack.config.js'
 
+browserify   = require 'browserify'
+source       = require 'vinyl-source-stream'
+buffer       = require 'vinyl-buffer'
+watchify     = require 'watchify'
+handleErrors = require '../util/handleErrors.js'
+
 gulp.task "js", ()->
   gulp.src config.js.src+'main.js'
   .pipe $.plumber
@@ -20,3 +26,28 @@ gulp.task "js", ()->
   .pipe gulp.dest config.js.dist
   .pipe gulp.dest config.wp.dir+'/www/wordpress/js/'
   .on "end" , browserSync.reload
+
+
+
+opts = {
+        entries: './'+config.js.src+'/main.js'
+        transform: [ 'babelify' ]
+        plugin: ["licensify"],
+        debug: true
+       }
+
+b    = watchify(browserify(opts))
+
+bundle = ->
+  return b.bundle()
+    .on 'error', handleErrors
+    .pipe source 'main.js' # Output filename
+    # .pipe buffer()
+    # .pipe $.uglify({preserveComments: 'license'})
+    .pipe gulp.dest config.js.dist
+    .pipe gulp.dest config.wp.dir+'/www/wordpress/js/'
+    .on "end" , browserSync.reload
+
+
+
+gulp.task "js", bundle

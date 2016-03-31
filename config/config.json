@@ -1,10 +1,11 @@
 {
   "root": {
     "dist": "dist",
-    "dev": "false"
+    "staging": "false",
+    "wp": false
   },
   "server": {
-    "dev":"http://dev.tanshio.net/",
+    "staging":"http://dev.tanshio.net/",
     "production":"http://tanshio.net/"
   },
   "browserSync" : {
