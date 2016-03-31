@@ -30,8 +30,8 @@ gulp.task "jade", ->
         site_url = ""
         page_url = ""
 
-        if config.root.dev == "false"
-          site_url = config.server.dev
+        if config.root.staging == "true"
+          site_url = config.server.staging
         else
           site_url = config.server.production
 
