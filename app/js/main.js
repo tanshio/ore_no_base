@@ -1,2 +1,2 @@
 // require('es6-promise').polyfill();
-window.jQuery = window.$ = require('jQuery')
+window.jQuery = window.$ = require('jquery')
