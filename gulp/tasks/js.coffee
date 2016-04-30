@@ -16,6 +16,8 @@ buffer       = require 'vinyl-buffer'
 watchify     = require 'watchify'
 handleErrors = require '../util/handleErrors.js'
 
+
+# webpack
 gulp.task "js", ()->
   gulp.src config.js.src+'main.js'
   .pipe $.plumber
@@ -28,7 +30,7 @@ gulp.task "js", ()->
   .on "end" , browserSync.reload
 
 
-
+# browserify
 opts = {
         entries: './'+config.js.src+'/main.js'
         transform: [ 'babelify' ]
