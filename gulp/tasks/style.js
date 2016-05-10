@@ -1,12 +1,14 @@
 import gulp from 'gulp'
 import gulpif from 'gulp-if'
 import browserSync from 'browser-sync'
-
 import config from "../../config/config.json"
-
 import gulpLoadPlugins from 'gulp-load-plugins'
-const $ = gulpLoadPlugins()
+import sourcemaps from 'gulp-sourcemaps'
 
+import hasWP from '../util/hasWP'
+import isProduction from '../util/isProduction'
+
+const $ = gulpLoadPlugins()
 
 const cssbanner  = `/*
   Theme Name: ${config.wp.title}
@@ -36,17 +38,32 @@ gulp.task('scss', ()=> {
   return gulp.src(config.scss.src + "style.scss").pipe($.plumber({
     errorHandler: $.notify.onError("<%= error.message %>")
   })).pipe($.sass({
-    includePaths: require('node-neat').includePaths
-  })).pipe($.pleeease({
-    "autoprefixer": {
-      "browsers": ["ie 9"]
-    },
-    "rem": false
+    includePaths: require('node-neat').includePaths,
+    sourcemap: true
   }))
-  //.pipe($.header(cssbanner, {pkg : pkg}))
-  //.pipe(replace("../", "./"))
-  //.pipe(gulp.dest(pkg.name+'/www/wordpress/wp-content/themes/'+pkg.name))
+  .pipe(gulpif(!isProduction(),sourcemaps.init()))
+  .pipe(gulpif(isProduction(),
+    $.pleeease({
+      "autoprefixer": {
+        "browsers": ["ie 9"]
+      },
+      "rem": false,
+      "minifier": true,
+    }),
+    $.pleeease({
+      "autoprefixer": {
+        "browsers": ["ie 9"]
+      },
+      "rem": false,
+      "minifier": false,
+      "sourcemaps": true,
+    })
+  ))
+  .pipe(gulpif(!isProduction(),sourcemaps.init(sourcemaps.write())))
   .pipe(gulp.dest(config.scss.dist))
+  .pipe(gulpif(hasWP(),$.header(cssbanner, {config : config})))
+  .pipe(gulpif(hasWP(),gulp.dest('www/wordpress/wp-content/themes/test')))
+  .pipe(gulp.dest('www/wordpress/wp-content/themes/test'))
   .on("end", browserSync.reload);
 });
 

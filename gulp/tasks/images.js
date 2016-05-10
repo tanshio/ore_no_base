@@ -1,10 +1,12 @@
 import gulp from 'gulp'
 import spritesmith from 'gulp.spritesmith'
-
 import config from '../../config/config.json'
-
 import gulpLoadPlugins from 'gulp-load-plugins'
+
 const $ = gulpLoadPlugins()
+
+import hasWP from '../util/hasWP'
+
 
 gulp.task("sprite", ()=> {
   var spriteData;
@@ -35,6 +37,7 @@ gulp.task("images", function() {
     interlaced: true
   }))
   .pipe(gulp.dest(config.image.dist))
+  .pipe(gulpif(hasWP(),gulp.dest(`${config.wp.dir}/www/wordpress/images`)))
   // .pipe(gulp.dest(`${config.wp.dir}/www/wordpress/wp-content/themes/${config.wp.themename}/images`))
   // .pipe(gulp.dest(`${config.wp.dir}/www/wordpress/images`))
   .pipe($.size({
