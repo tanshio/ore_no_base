@@ -17,8 +17,8 @@
     "src": "app/js/",
     "dist": "dist/js"
   },
-  "jade": {
-    "src": "app/jade/",
+  "pug": {
+    "src": "app/pug/",
     "dist": "dist/"
   },
   "scss": {
