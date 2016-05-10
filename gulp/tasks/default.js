@@ -9,10 +9,8 @@ import isProduction from '../util/isProduction'
 
 
 gulp.task("default", ()=> {
-  // runSequence("clean", "sprite", ["scss", "js", "images"], "pug", "browserSync", "watch");
-  // gulp.watch("app/**/*.jade", ["jade"]);
-  // gulp.watch("app/**/*.scss", ["scss"]);
-  // return gulp.watch("app/**/*.js", ["js"]);
-  console.log(hasWP())
-  console.log(isProduction())
+  runSequence("clean", "sprite", ["scss", "js", "images"], "pug", "browserSync", "watch");
+  gulp.watch("app/**/*.pug", ["pug"]);
+  gulp.watch("app/**/*.scss", ["scss"]);
+  return gulp.watch("app/**/*.js", ["js"]);
 });
