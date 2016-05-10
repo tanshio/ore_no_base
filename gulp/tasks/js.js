@@ -31,25 +31,25 @@ gulp.task("js", function() {
 });
 
 
-// // browserify
-// const opts = {
-//   entries: './' + config.js.src + '/main.js',
-//   transform: ['babelify'],
-//   plugin: ["licensify"],
-//   debug: true
-// };
-//
-// const b = watchify(browserify(opts))
-//
-// const bundle = function() {
-//   return b.bundle()
-//   .on('error', handleErrors)
-//   .pipe(source('main.js'))
-//   .pipe(gulpif(isProduction(),buffer()))
-//   .pipe(gulpif(isProduction(),$.uglify({preserveComments: 'license'})))
-//   .pipe(gulp.dest(config.js.dist))
-//   .pipe(gulpif(hasWP(),gulp.dest(config.wp.dir + '/www/wordpress/js/')))
-//   .on("end", browserSync.reload);
-// };
-//
-// gulp.task("js", bundle);
+// browserify
+const opts = {
+  entries: './' + config.js.src + '/main.js',
+  transform: ['babelify'],
+  plugin: ["licensify"],
+  debug: true
+};
+
+const b = watchify(browserify(opts))
+
+const bundle = function() {
+  return b.bundle()
+  .on('error', handleErrors)
+  .pipe(source('main.js'))
+  .pipe(gulpif(isProduction(),buffer()))
+  .pipe(gulpif(isProduction(),$.uglify({preserveComments: 'license'})))
+  .pipe(gulp.dest(config.js.dist))
+  .pipe(gulpif(hasWP(),gulp.dest(config.wp.dir + '/www/wordpress/js/')))
+  .on("end", browserSync.reload);
+};
+
+gulp.task("js", bundle);
