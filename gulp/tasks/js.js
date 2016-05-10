@@ -7,7 +7,7 @@ const $ = gulpLoadPlugins()
 
 import config from "../../config/config.json"
 
-import webpack from 'gulp-webpack'
+import webpack from 'webpack-stream'
 import webpackConf from '../../webpack.config.js'
 
 import browserify from 'browserify'
