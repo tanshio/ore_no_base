@@ -48,7 +48,7 @@ gulp.task('scss', ()=> {
         "browsers": ["ie 9"]
       },
       "rem": false,
-      "minifier": true,
+      "minifier": true
     }),
     $.pleeease({
       "autoprefixer": {
@@ -56,7 +56,7 @@ gulp.task('scss', ()=> {
       },
       "rem": false,
       "minifier": false,
-      "sourcemaps": true,
+      "sourcemaps": true
     })
   ))
   .pipe(gulpif(!isProduction(),sourcemaps.init(sourcemaps.write())))
