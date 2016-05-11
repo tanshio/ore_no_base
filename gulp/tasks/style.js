@@ -63,7 +63,6 @@ gulp.task('scss', ()=> {
   .pipe(gulp.dest(config.scss.dist))
   .pipe(gulpif(hasWP(),$.header(cssbanner, {config : config})))
   .pipe(gulpif(hasWP(),gulp.dest('www/wordpress/wp-content/themes/test')))
-  .pipe(gulp.dest('www/wordpress/wp-content/themes/test'))
   .on("end", browserSync.reload);
 });
 
