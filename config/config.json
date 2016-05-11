@@ -17,6 +17,10 @@
     "src": "app/js/",
     "dist": "dist/js"
   },
+  "jade": {
+    "src": "app/jade/",
+    "dist": "dist/"
+  },
   "pug": {
     "src": "app/pug/",
     "dist": "dist/"
