@@ -10,7 +10,7 @@ import isProduction from '../util/isProduction'
 
 gulp.task("default", ()=> {
   runSequence("clean", "sprite", ["scss", "js", "images"], "jade", "browserSync", "watch");
-  gulp.watch("app/**/*.pug", ["pug"]);
+  // gulp.watch("app/**/*.pug", ["pug"]);
   gulp.watch("app/**/*.pug", ["jade"]);
   gulp.watch("app/**/*.scss", ["scss"]);
   return gulp.watch("app/**/*.js", ["js"]);

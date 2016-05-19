@@ -48,7 +48,7 @@ gulp.task('scss', ()=> {
         "browsers": ["ie 9"]
       },
       "rem": false,
-      "minifier": true,
+      "minifier": true
     }),
     $.pleeease({
       "autoprefixer": {
@@ -56,14 +56,13 @@ gulp.task('scss', ()=> {
       },
       "rem": false,
       "minifier": false,
-      "sourcemaps": true,
+      "sourcemaps": true
     })
   ))
   .pipe(gulpif(!isProduction(),sourcemaps.init(sourcemaps.write())))
   .pipe(gulp.dest(config.scss.dist))
   .pipe(gulpif(hasWP(),$.header(cssbanner, {config : config})))
   .pipe(gulpif(hasWP(),gulp.dest('www/wordpress/wp-content/themes/test')))
-  .pipe(gulp.dest('www/wordpress/wp-content/themes/test'))
   .on("end", browserSync.reload);
 });
 
