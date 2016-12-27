@@ -8,7 +8,9 @@
     "js:production": "webpack --watch -p",
     "style:dev": "postcss -w --map.inline -c postcss.js -o dist/style/style.css app/style/style.css",
     "pug": "pug app/pug -w -p --name-after-file -P -O ./config.json --out ./dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "browsersync": "browser-sync start --server 'dist' --files 'dist' --reloadDebounce 500 --loglevel 'debug'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm-run-all -p pug js:dev browsersync"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +18,8 @@
     "autoprefixer": "^6.5.3",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-polyfill": "^6.20.0",
     "babel-preset-latest": "^6.16.0",
     "browser-sync": "^2.18.2",
     "chokidar-cli": "^1.2.0",

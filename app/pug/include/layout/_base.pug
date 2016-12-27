@@ -1,0 +1,28 @@
+//- base.jade
+doctype html
+block vars
+  - var dir = filename.replace('app/pug/', '').replace('.pug','')
+
+html(lang="ja", prefix="og:http://ogp.me/ns#")
+  head
+    block title
+      title #{title}
+
+    block meta
+      include ../meta/_default
+
+  body(class=dir)
+    block header
+      header
+        nav
+          ul
+            li top2222aaaaaaaaabbbbbbb
+            li aaaaaaaa
+
+
+    block content
+
+    block footer
+      footer
+        p footer
+      script(src="main.js")
