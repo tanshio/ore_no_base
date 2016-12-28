@@ -7,8 +7,8 @@
     "js:dev": "webpack --watch --devtool inline-source-map --debug",
     "js:production": "webpack --watch -p",
     "style:dev": "postcss -w --map.inline -c postcss.js -o dist/style/style.css app/style/style.css",
-    "pug": "pug app/pug -w -p --name-after-file -P -O ./config.json --out ./dist",
-    "browsersync": "browser-sync start --server 'dist' --files 'dist' --reloadDebounce 500 --loglevel 'debug'",
+    "pug": "pug app/pug/files -w -p --name-after-file -P -O ./config.json --out ./dist",
+    "browsersync": "browser-sync start --server 'dist' --files 'dist' --reloadDebounce 250 --loglevel 'debug'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm-run-all -p pug js:dev browsersync"
   },
