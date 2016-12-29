@@ -1,3 +1,5 @@
 :root {
   --color: #ccc;
 }
+
+@custom-media --small-viewport (min-width: 30em);

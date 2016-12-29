@@ -3,11 +3,16 @@
 
 body {
    font-family: "Roboto";
+   background-color: var(--color);
+   @media (--small-viewport) {
+     background: red;
+   }
 }
 
 
 .list {
   width: 100%;
+
   &__item {
     color: var(--color);
     font-size: 24px;

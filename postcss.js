@@ -7,7 +7,9 @@ module.exports = {
     "postcss-flexbugs-fixes",
     "postcss-custom-properties",
     "postcss-custom-media",
-    "postcss-font-magician"
+    "postcss-font-magician",
+    "css-mqpacker",
+    "cssnano"
   ],
   "autoprefixer": {
     "browsers": "last 2 versions"
