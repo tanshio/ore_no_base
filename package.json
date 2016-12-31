@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "js:dev": "webpack --watch --devtool inline-source-map --debug",
-    "js:production": "webpack --watch -p",
-    "style:dev": "postcss -w --map.inline -c postcss.js -o dist/style/style.css app/style/style.css",
-    "style:production": "postcss -w -c postcss.js cssnano -o dist/style/style.css app/style/style.css",
-    "pug": "pug app/pug/files -w -p --name-after-file -P -O ./config.json --out ./dist",
+    "dev:js": "webpack --watch --devtool inline-source-map --debug",
+    "production:js": "webpack --watch -p",
+    "dev:css": "postcss -w --map.inline -c postcss.js -o dist/style/style.css app/style/style.css",
+    "production:css": "postcss -w -c postcss.js cssnano -o dist/style/style.css app/style/style.css",
+    "dev:pug": "pug app/pug/files -w -p --name-after-file -P -O ./config.json --out ./dist",
     "browsersync": "browser-sync start --server 'dist' --files 'dist' --reloadDebounce 250 --loglevel 'debug'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm-run-all -p js:dev style:dev pug browsersync ",
-    "p": "npm-run-all js:production style:production pug browsersync"
+    "dev": "npm-run-all -p dev:* browsersync ",
+    "p": "npm-run-all production:* dev:pug browsersync"
   },
   "author": "",
   "license": "ISC",
