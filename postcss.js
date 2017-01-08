@@ -10,6 +10,7 @@ module.exports = {
     "postcss-font-magician",
     "css-mqpacker",
     "postcss-reporter",
+    "postcss-browser-reporter",
     "cssnano"
   ],
   "autoprefixer": {
