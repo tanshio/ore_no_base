@@ -1,6 +1,19 @@
 {
   "data":{
-    "test":"test",
-    "index": "Hello World"
+    "index":{
+      "title": "タイトル",
+      "keyword": "キーワード",
+      "desc": "説明文"
+    },
+    "test/index":{
+      "title": "asddgg",
+      "keyword": "キーワード",
+      "desc": "説明文"
+    },
+    "test/aaa":{
+      "title": "asddgdhffhjg",
+      "keyword": "キーワード",
+      "desc": "説明文"
+    }
   }
 }

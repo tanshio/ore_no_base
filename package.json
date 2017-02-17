@@ -12,7 +12,7 @@
     "browsersync": "browser-sync start --server 'dist' --files 'dist' --reloadDebounce 250 --loglevel 'debug'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm-run-all -p dev:* browsersync ",
-    "p": "npm-run-all production:* dev:pug browsersync"
+    "p": "npm-run-all -p production:* dev:pug browsersync"
   },
   "author": "",
   "license": "ISC",
