@@ -51,5 +51,10 @@
   },
   "dependencies": {
     "normalize.css": "^5.0.0"
-  }
+  },
+  "private": true,
+  "browserslist": [
+    "last 2 versions",
+    "ie 9"
+  ]
 }
