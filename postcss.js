@@ -13,9 +13,6 @@ module.exports = {
     "postcss-browser-reporter",
     "cssnano"
   ],
-  "autoprefixer": {
-    "browsers": "last 2 versions"
-  },
   "postcss-import": {
     onImport: function(sources) {
       global.watchCSS(sources, this.from)
