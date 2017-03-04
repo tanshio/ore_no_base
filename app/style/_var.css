@@ -1,5 +1,9 @@
 :root {
   --color: #ccc;
+  --g-font-san: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "Yu Gothic", YuGothic, Verdana, Meiryo, sans-serif;
+  --g-gont-serif: "Yu Mincho", YuMincho, "Hiragino Mincho ProN", "Hiragino Mincho Pro", serif;
+  --g-fontFamily: var(--g-font-san);
+
 }
 
 @custom-media --small-viewport (min-width: 30em);
