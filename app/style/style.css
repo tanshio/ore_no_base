@@ -3,7 +3,7 @@
 
 body {
    font-family: "Roboto";
-   background-color: var(--color);
+  background-color: var(--color2);
    @media (--small-viewport) {
      background: gray;
    }

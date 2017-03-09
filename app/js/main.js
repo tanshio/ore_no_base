@@ -21,8 +21,11 @@ test().then(()=>{
 });
 
 
+Array.prototype.forEach.call([...document.querySelectorAll('.js-content')]);
+
+
 const log = (param)=>{
-  console.log(param)
+  console.log(param);
 }
 
-log(process.env)
+log(process.env);
