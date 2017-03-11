@@ -4,10 +4,16 @@
 body {
    font-family: "Roboto";
   background-color: var(--color2);
-   @media (--small-viewport) {
+   @media (--v-sm) {
      background: gray;
    }
 }
+
+@media (--v-land2x) {
+
+}
+
+
 
 
 .list {

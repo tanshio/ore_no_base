@@ -20,10 +20,6 @@ test().then(()=>{
      console.log("途中で失敗したみたい…aaa");
 });
 
-
-Array.prototype.forEach.call([...document.querySelectorAll('.js-content')]);
-
-
 const log = (param)=>{
   console.log(param);
 }

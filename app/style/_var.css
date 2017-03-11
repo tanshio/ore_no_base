@@ -5,12 +5,16 @@
   --g-gont-serif: "Yu Mincho", YuMincho, "Hiragino Mincho ProN", "Hiragino Mincho Pro", serif;
   --g-fontFamily: var(--g-font-san);
 
+  --g-viewporr-sm: 40em;
+
 }
 
-@custom-media --small-viewport (min-width: 30em);
+@custom-media --v-sm (min-width: var(--g-viewporr-sm));
+@custom-media --v-md (min-width: 64em);
+@custom-media --v-lg (min-width: 75em);
 
-@custom-media --land (orientation: landscape);
-@custom-media --land2x (-webkit-min-device-pixel-ratio: 1.5) and (orientation: landscape), (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape), (min-resolution: 2dppx) and (orientation: landscape);
+@custom-media --v-land (orientation: landscape);
+@custom-media --v-land2x (-webkit-min-device-pixel-ratio: 1.5) and (orientation: landscape), (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape), (min-resolution: 2dppx) and (orientation: landscape);
 
-@custom-media --port (orientation: portrait);
-@custom-media --port2x (-webkit-min-device-pixel-ratio: 1.5) and (orientation: portrait), (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait), (min-resolution: 2dppx) and (orientation: portrait);
+@custom-media --v-port (orientation: portrait);
+@custom-media --v-port2x (-webkit-min-device-pixel-ratio: 1.5) and (orientation: portrait), (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait), (min-resolution: 2dppx) and (orientation: portrait);
