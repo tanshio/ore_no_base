@@ -1,5 +1,5 @@
 {
   "extends": [
-    "@tanshio/eslint-config"
+    "./node_modules/@tanshio/eslint-config/index.js"
   ]
 }
