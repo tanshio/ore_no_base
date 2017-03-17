@@ -11,6 +11,7 @@
     "production:css": "postcss -w -c postcss.js cssnano -o dist/style/style.css app/style/style.css",
     "dev:pug": "pug app/pug/files -w -p --name-after-file -P -O ./config.json --out ./dist",
     "browsersync": "browser-sync start --server 'dist' --files 'dist' --reloadDebounce 250 --loglevel 'debug'",
+    "svgpack":"svgpack ./app/icon/*.svg -d ./dist/icon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm-run-all -p dev:* browsersync ",
     "p": "npm-run-all -p production:* dev:pug browsersync"
@@ -56,6 +57,7 @@
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^2.5.4",
     "shelljs": "^0.7.7",
+    "svgpack": "^3.0.1",
     "webpack": "2.2.1"
   },
   "dependencies": {
