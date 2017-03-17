@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "imagemin": "imagemin ./app/images/**/* --out-dir=dist/images -r",
+    "imagemin": "imagemin-dir app/images dist/images",
     "dev:js": "webpack --watch --devtool inline-source-map --debug",
     "production:js": "webpack --watch -p",
     "dev:css": "postcss -w --map.inline -c postcss.js -o dist/style/style.css app/style/style.css",
@@ -34,6 +34,7 @@
     "ejs": "^2.5.6",
     "imagemin": "^5.2.2",
     "imagemin-cli": "^3.0.0",
+    "imagemin-cli-preserve-dir-structure": "^0.0.2",
     "mkdirp": "^0.5.1",
     "node-notifier": "^5.0.2",
     "npm-run-all": "^4.0.1",
@@ -54,6 +55,7 @@
     "pug": "2.0.0-beta11",
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^2.5.4",
+    "shelljs": "^0.7.7",
     "webpack": "2.2.1"
   },
   "dependencies": {

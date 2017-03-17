@@ -4,12 +4,9 @@
   --g-font-san: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "Yu Gothic", YuGothic, Verdana, Meiryo, sans-serif;
   --g-gont-serif: "Yu Mincho", YuMincho, "Hiragino Mincho ProN", "Hiragino Mincho Pro", serif;
   --g-fontFamily: var(--g-font-san);
-
-  --g-viewporr-sm: 40em;
-
 }
 
-@custom-media --v-sm (min-width: var(--g-viewporr-sm));
+@custom-media --v-sm (min-width: 40em);
 @custom-media --v-md (min-width: 64em);
 @custom-media --v-lg (min-width: 75em);
 
