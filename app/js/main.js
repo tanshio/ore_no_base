@@ -17,10 +17,10 @@ test().then(()=>{
      console.log("全部成功しました。");
 }).catch(()=>{
      // 途中1回でもreject関数が呼ばれた場合、この関数が実行される
-     console.log("途中で失敗したみたい…aaa");
+     console.log("途中で失敗したみたい");
 });
 
-const log = (param)=>{
+const log = (param) =>{
   console.log(param);
 }
 
