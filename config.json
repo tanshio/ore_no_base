@@ -1,7 +1,18 @@
-{
-  "data":{
-    "index":{
-      "title": "タイトル",
+
+
+module.exports = {
+  filters: {
+    'image': function (block, options) {
+      var sizeOf = require('image-size');
+      var dimensions = sizeOf(options.url);
+      console.log(dimensions);
+      var width = options.size ? Math.ceil(dimensions.width / options.size) :  dimensions.width;
+      return `<img src="${options.url}" width="${width}">`;
+  }
+},
+"data":{
+  "index":{
+    "title": "タイトル",
       "keyword": "キーワード",
       "desc": "説明文"
     },

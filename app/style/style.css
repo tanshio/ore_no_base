@@ -4,7 +4,7 @@
 body {
    font-family: "Roboto";
   background-color: var(--color2);
-  color: red;
+  color: blue;
    @media (--v-sm) {
      background: gray;
    }

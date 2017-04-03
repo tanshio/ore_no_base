@@ -40,6 +40,7 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^2.1.1",
+    "image-size": "^0.5.1",
     "imagemin": "^5.2.2",
     "imagemin-cli": "^3.0.0",
     "imagemin-cli-preserve-dir-structure": "^0.0.2",

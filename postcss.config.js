@@ -31,10 +31,10 @@ module.exports = {
     require('postcss-import')(),
     require('postcss-nesting')(),
     require('postcss-custom-properties')({
-      preserve: false,
+      preserve: false
     }),
     require('postcss-custom-media')(),
-    require('autoprefixer')(),
+    require('autoprefixer')()
   ]
 }
 
