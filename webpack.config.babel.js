@@ -7,6 +7,24 @@ webpack-start
 ${ENV}
 `)
 
+let pluginsList = [
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false,
+      drop_console: true
+    }
+  }),
+  new webpack.DefinePlugin({
+    'process.env':{
+      'NODE_ENV': `"${ENV}"`
+    }
+  })
+]
+
+if(ENV === 'development') {
+  pluginsList.splice(0,1)
+}
+
 export default {
   entry: './app/js/main.js',
   output: {
@@ -18,11 +36,5 @@ export default {
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
     ]
   },
-  plugins: [
-      new webpack.DefinePlugin({
-          'process.env':{
-              'NODE_ENV': `"${ENV}"`
-          }
-      })
-  ]
+  plugins: pluginsList
 }
