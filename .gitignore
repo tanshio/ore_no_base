@@ -3,6 +3,9 @@
 .vscode
 .idea/
 
+.session.vim
+.session.vim.lock
+
 /dist/
 
 *.DS_Store
