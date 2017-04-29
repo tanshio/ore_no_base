@@ -4,6 +4,22 @@ const relative = false
 const dist = './dist/'
 const imageRoot = 'images/'
 
+const getRelativePath = (relative,filename) => {
+  let relativePath = ''
+  if (relative) {
+    var dir = filename.replace('app/pug/files/', '').replace('.pug', '').split('/').length
+    for (var i = 0; i < dir; ++i) {
+      if (i % 2 === 0 || i === 0) {
+        relativePath = './' + relativePath
+      } else {
+        relativePath = '.' + relativePath
+      }
+    }
+  } else {
+    relativePath = '/'
+  }
+}
+
 module.exports = {
   filters: {
     'image': function (block, options) {
@@ -11,20 +27,7 @@ module.exports = {
       const url = imageRoot + imagePath
       const dimensions = sizeOf(dist + url)
       const width = options.size ? Math.ceil(dimensions.width / options.size) : dimensions.width
-      let relativePath = ''
-
-      if (relative) {
-        var dir = options.filename.replace('app/pug/files/', '').replace('.pug', '').split('/').length
-        for (var i = 0; i < dir; ++i) {
-          if (i % 2 === 0 || i === 0) {
-            relativePath = './' + relativePath
-          } else {
-            relativePath = '.' + relativePath
-          }
-        }
-      } else {
-        relativePath = '/'
-      }
+      let relativePath = getRelativePath(options.relative, options.filename)
 
       let text = `src='${relativePath}${url}'`
 
@@ -37,6 +40,22 @@ module.exports = {
       }
 
       return `<img ${text}>`
+    },
+    'picture': function (block, options) {
+      return `
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://www.mitsue.co.jp/knowledge/blog/frontend/img/20161221_04.gif">
+          <source media="(min-width: 384px)" srcset="https://www.mitsue.co.jp/knowledge/blog/frontend/img/20161221_03.gif">
+          <img src="https://www.mitsue.co.jp/knowledge/blog/frontend/img/20161221_02.gif" alt="dummy image">
+        </picture>
+      `
+    },
+    'srcset': function (block, options) {
+      return `
+        <img src=""
+             srcset=""
+             alt="">
+      `
     }
   },
   'data': {
