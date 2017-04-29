@@ -4462,6 +4462,12 @@ postcss-assets@^4.1.0:
     postcss "^5.0.12"
     postcss-functions "^2.1.0"
 
+postcss-banner@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-banner/-/postcss-banner-3.0.0.tgz#baf2269c19680096d996a079830325030c80ed96"
+  dependencies:
+    postcss "^5.0.8"
+
 postcss-browser-reporter@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/postcss-browser-reporter/-/postcss-browser-reporter-0.5.0.tgz#ae069dd086d57388d196e1dac39cb8d7626feb48"
@@ -4707,6 +4713,13 @@ postcss-ordered-values@^2.1.0:
   dependencies:
     postcss "^5.0.4"
     postcss-value-parser "^3.0.1"
+
+postcss-pxtorem@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/postcss-pxtorem/-/postcss-pxtorem-4.0.1.tgz#9c64d0efe4885473cc1cb0305c6ffc3ebb45b1cd"
+  dependencies:
+    object-assign "^4.1.0"
+    postcss "^5.2.10"
 
 postcss-reduce-idents@^2.2.2:
   version "2.3.1"
