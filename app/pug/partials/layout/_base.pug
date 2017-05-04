@@ -6,13 +6,16 @@ block vars
     - var title = data[dir].title ? data[dir].title : "undifined"
     - var keyword = data[dir].keyword ? data[dir].keyword : "undifined"
     - var desc = data[dir].desc ? data[dir].desc : "undifined"
-
+include ../mixins/_mixins
 html(lang="ja", prefix="og:http://ogp.me/ns#")
   head
+    meta(charset='utf-8')
     block title
       title #{title}
 
     block meta
       include ../meta/_default
   body(class=dir)
-    block loading
+    +srcset(src="../../../images/logo.png" x=2 d=1 alt="srcset" class="btn")
+    +img(src="../../../images/logo@2x.png" d=2 alt="aaa2222" class="btn")
+    block content

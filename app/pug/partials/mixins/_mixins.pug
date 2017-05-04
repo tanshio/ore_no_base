@@ -1,0 +1,10 @@
+mixin srcset
+  - attributes.filename = filename
+  - var srcset = createSrcSet(attributes)
+  | !{srcset}
+
+
+mixin img(file,size=1,alt='',relative)
+  - attributes.filename = filename
+  - var img = createImg(attributes)
+  | !{img}

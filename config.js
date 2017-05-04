@@ -1,13 +1,13 @@
 const sizeOf = require('image-size')
-const relative = false
 
 const dist = './dist/'
 const imageRoot = 'images/'
 
-const getRelativePath = (relative,filename) => {
+const getRelativePath = (relative, filename) => {
   let relativePath = ''
   if (relative) {
     var dir = filename.replace('app/pug/files/', '').replace('.pug', '').split('/').length
+    console.log(dir)
     for (var i = 0; i < dir; ++i) {
       if (i % 2 === 0 || i === 0) {
         relativePath = './' + relativePath
@@ -18,46 +18,120 @@ const getRelativePath = (relative,filename) => {
   } else {
     relativePath = '/'
   }
+  return relativePath
+}
+
+const getImagePath = (file) => {
+  const imagePath = file.match(/\/images\/(.*)$/) ? file.match(/\/images\/(.*)$/)[1] : file
+  return imageRoot + imagePath
+}
+
+const createSet = (img, x) => {
+  const imageName = img.url.split('/').pop().split('.')
+  const dir = img.url.replace(imageName.join('.'), '')
+
+  let srcset = []
+
+  for (var i = 0; i < x; ++i) {
+    if (i === 0) {
+      srcset.push(`${img.path}${dir}${imageName[0]}.${imageName[1]} 1x`)
+    } else {
+      srcset.push(`${img.path}${dir}${imageName[0]}@${i + 1}x.${imageName[1]} ${i + 1}x`)
+    }
+  }
+
+  return srcset
+}
+
+class Img {
+  constructor (options) {
+    this.url = getImagePath(options.src)
+    this.dimensions = sizeOf(dist + this.url)
+    this.width = options.d ? Math.ceil(this.dimensions.width / options.d) : this.dimensions.width
+    this.path = getRelativePath(options.relative, options.filename)
+  }
+}
+
+const createDataObj = (obj) => {
+  let dataArr = []
+  for (let data in obj) {
+    if (/data/.test(data)) {
+      let dataset = {}
+      dataset[data] = obj[data]
+      dataArr.push(dataset)
+    }
+  }
+  return dataArr
+}
+
+const createImg = (options) => {
+  const img = new Img(options)
+
+  let data = createDataObj(options)
+  let dataset
+  let src = `src='${img.path}${img.url}'`
+
+  if (options.d) {
+    src = `${src} width='${img.width}'`
+  }
+
+  if (options.alt) {
+    src = `${src} alt='${options.alt}'`
+  }
+
+  if (data.length > 0) {
+    dataset = data.map((e) => {
+      let key = Object.keys(e)[0]
+      let value = e[key] ? `="${e[key]}"` : ''
+      return `${key}${value}`
+    }).join(' ')
+    src = `${src} ${dataset}`
+  }
+
+  return `<img ${src}>`
+}
+
+const createSrcSet = (options) => {
+  const img = new Img(options)
+
+  let data = createDataObj(options)
+  let dataset
+  let src = `src="${img.path}${img.url}"`
+
+  if (options.d) {
+    src = `${src} width="${img.width}"`
+  }
+
+  if (options.alt) {
+    src = `${src} alt="${options.alt}"`
+  }
+
+  if (data.length > 0) {
+    dataset = data.map((e) => {
+      let key = Object.keys(e)[0]
+      let value = e[key] ? `="${e[key]}"` : ''
+      return `${key}${value}`
+    }).join(' ')
+    src = `${src} ${dataset}`
+  }
+
+  let srcset = createSet(img, options.x)
+
+  return `
+      <img ${src}
+           srcset="${srcset.join(',')}">
+    `
+}
+
+const createPicture = () => {
+
 }
 
 module.exports = {
-  filters: {
-    'image': function (block, options) {
-      let imagePath = options.url.match(/\/images\/(.*)$/) ? options.url.match(/\/images\/(.*)$/)[1] : options.url
-      const url = imageRoot + imagePath
-      const dimensions = sizeOf(dist + url)
-      const width = options.size ? Math.ceil(dimensions.width / options.size) : dimensions.width
-      let relativePath = getRelativePath(options.relative, options.filename)
-
-      let text = `src='${relativePath}${url}'`
-
-      if (options.size) {
-        text = `${text} width='${width}'`
-      }
-
-      if (options.alt) {
-        text = `${text} alt='${options.alt}'`
-      }
-
-      return `<img ${text}>`
-    },
-    'picture': function (block, options) {
-      return `
-        <picture>
-          <source media="(min-width: 768px)" srcset="https://www.mitsue.co.jp/knowledge/blog/frontend/img/20161221_04.gif">
-          <source media="(min-width: 384px)" srcset="https://www.mitsue.co.jp/knowledge/blog/frontend/img/20161221_03.gif">
-          <img src="https://www.mitsue.co.jp/knowledge/blog/frontend/img/20161221_02.gif" alt="dummy image">
-        </picture>
-      `
-    },
-    'srcset': function (block, options) {
-      return `
-        <img src=""
-             srcset=""
-             alt="">
-      `
-    }
-  },
+  'createPicture': createPicture,
+  'createDataObj': createDataObj,
+  'createImg': createImg,
+  'createSrcSet': createSrcSet,
   'data': {
     'index': {
       'title': 'タイトル',
