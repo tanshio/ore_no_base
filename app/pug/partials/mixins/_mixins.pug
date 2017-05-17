@@ -4,7 +4,7 @@ mixin srcset
   | !{srcset}
 
 
-mixin img(file,size=1,alt='',relative)
+mixin img
   - attributes.filename = filename
   - var img = createImg(attributes)
   | !{img}

@@ -1,0 +1,35 @@
+html {
+  font-size: var(--g-fontSize);
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--g-fontFamily);
+}
+
+[tabindex="-1"]:focus {
+	outline: 0;
+}
+
+/* ::selection { */
+/*   color: #fff; */
+/*   background-color: #000; */
+/* } */
+
+main {
+  display: block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
