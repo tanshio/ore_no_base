@@ -67,6 +67,7 @@
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^2.6.1",
     "shelljs": "^0.7.7",
+    "stylelint": "^7.10.1",
     "svgpack": "^3.0.1",
     "webpack": "^2.3.2"
   },
