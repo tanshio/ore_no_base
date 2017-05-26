@@ -1,5 +1,5 @@
 html {
-  font-size: var(--g-fontSize);
+  font-size: var(--g-fontSize-primary);
   box-sizing: border-box;
 }
 

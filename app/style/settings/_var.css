@@ -1,7 +1,6 @@
 :root {
-  --color: #ccc;
-  --color2: red;
-  --g-fontSize: 16px;
+  --g-color-primary: #ccc;
+  --g-fontSize-primary: 16px;
   --g-font-san: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, "Yu Gothic", YuGothic, Verdana, Meiryo, sans-serif;
   --g-gont-serif: "Yu Mincho", YuMincho, "Hiragino Mincho ProN", "Hiragino Mincho Pro", serif;
   --g-fontFamily: var(--g-font-san);
