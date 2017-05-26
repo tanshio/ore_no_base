@@ -1,0 +1,22 @@
+.u-embed {
+  position: relative;
+  height: 0;
+  & embed,
+  & iframe,
+  & object,
+  & video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.u-embed--16x9 {
+  padding-bottom: 56.25%;
+}
+
+.u-embed--1x1{
+  padding-bottom: 100%;
+}
