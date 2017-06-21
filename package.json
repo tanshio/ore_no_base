@@ -9,7 +9,7 @@
     "production:js": "webpack --watch -p",
     "dev:css": "postcss app/style/style.css -o dist/style/style.css -w",
     "production:css": "postcss app/style/style.css -o dist/style/style.css -w -e 'production'",
-    "dev:pug": "pug app/pug/files -w -p --name-after-file -P -O ./config.js --out ./dist",
+    "dev:pug": "pug app/pug/files -w -p --name-after-file -O ./config.js --out ./dist -P",
     "browsersync": "browser-sync start --server 'dist' --files 'dist' --reloadDebounce 250 --loglevel 'debug'",
     "svgpack": "svgpack ./app/icon/*.svg -d ./dist/icon",
     "test": "echo \"Error: no test specified\" && exit 1",
