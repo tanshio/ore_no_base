@@ -1,3 +1,11 @@
-@import "_var.css";
+@import "./settings/_var.css";
 @import "./core/_core.css";
+@import "./layouts/_layouts.css";
+@import "./pages/_pages.css";
+@import "./utils/_utils.css";
 
+.test {
+  & img {
+    margin: 0;
+  }
+}

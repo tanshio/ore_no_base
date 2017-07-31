@@ -1,28 +1,33 @@
-// import 'babel-polyfill';
+// window.jQuery = window.$ = $
+//
+import changeViewport from '@utils/changeViewport.js'
 
-async function test(){
-     // 60回Promiseを待機する。
-     // rejectされた時は、自動的にこの関数が中断されるからtry-catchで囲む必要もない。
-    for(let i=0;i<60;++i){
-         // yieldと書いてた部分をawaitにする
-         await delayAndRandom();
-    }
- }
+changeViewport(1024)
 
-function delayAndRandom(){
-  var aaa = "aaa";
+async function test () {
+  // 60回Promiseを待機する。
+  // rejectされた時は、自動的にこの関数が中断されるからtry-catchで囲む必要もない。
+  for (let i = 0; i < 60; ++i) {
+    // yieldと書いてた部分をawaitにする
+    await delayAndRandom()
+  }
 }
 
-test().then(()=>{
-     // 全てresolveが呼ばれた場合、この関数が実行される
-     console.log("全部成功しました。");
-}).catch(()=>{
-     // 途中1回でもreject関数が呼ばれた場合、この関数が実行される
-     console.log("途中で失敗したみたい");
-});
-
-const log = (param) =>{
-  console.log(param);
+function delayAndRandom () {
+  const aaa = 'aaa'
+  console.log(aaa)
 }
 
-log(process.env);
+test().then(() => {
+  // 全てresolveが呼ばれた場合、この関数が実行される
+  console.log('全部成功しました。')
+}).catch(() => {
+  // 途中1回でもreject関数が呼ばれた場合、この関数が実行される
+  console.log('途中で失敗したみたい')
+})
+
+const log = (param) => {
+  console.log(param)
+}
+
+log(process.env)

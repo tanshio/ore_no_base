@@ -13,7 +13,7 @@ Tags:
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 
-benyland is based on Underscores http://underscores.me/, (C) 2012-2016 Automattic, Inc.
+siteName is based on Underscores http://underscores.me/, (C) 2012-2016 Automattic, Inc.
 Underscores is distributed under the terms of the GNU GPL v2 or later.
 
 Normalizing styles have been helped along thanks to the fine work of
@@ -43,10 +43,10 @@ let plugins = [
 
 if (process.env.NODE_ENV === 'production') {
   plugins.push(require('cssnano')())
-  plugins.push(require('postcss-banner')({
-    banner: banner,
-    important: true
-  }))
+  // plugins.push(require('postcss-banner')({
+  //   banner: banner,
+  //   important: true
+  // }))
 }
 
 module.exports = {

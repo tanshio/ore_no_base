@@ -1,7 +1,8 @@
-const webpack = require('webpack');
-
-const DEBUG = process.argv.includes('--debug');
+const webpack = require('webpack')
+const path = require('path')
+const DEBUG = process.argv.includes('--debug')
 const ENV = `${process.env.NODE_ENV || (DEBUG ? 'development' : 'production')}`
+
 console.log(`
 webpack-start
 ${ENV}
@@ -15,25 +16,38 @@ let pluginsList = [
     }
   }),
   new webpack.DefinePlugin({
-    'process.env':{
+    'process.env': {
       'NODE_ENV': `"${ENV}"`
     }
+  }),
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery'
   })
 ]
 
-if(ENV === 'development') {
-  pluginsList.splice(0,1)
+if (ENV === 'development') {
+  pluginsList.splice(0, 1)
 }
 
 export default {
   entry: './app/js/main.js',
   output: {
     filename: 'main.js',
-    path: __dirname + '/dist'
+    path: __dirname + '/dist/js'
+  },
+  resolve: {
+    modules: [
+      path.resolve(__dirname, "src"),
+      "node_modules"
+    ],
+    alias: {
+      "@utils": "@tanshio/ore-js-utils/src"
+    }
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
     ]
   },
   plugins: pluginsList
