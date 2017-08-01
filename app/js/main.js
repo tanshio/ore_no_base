@@ -1,6 +1,6 @@
 // window.jQuery = window.$ = $
 //
-import changeViewport from '@utils/changeViewport.js'
+import changeViewport from '@utils/changeViewport'
 
 changeViewport(1024)
 
