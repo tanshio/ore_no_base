@@ -31,3 +31,9 @@ const log = (param) => {
 }
 
 log(process.env)
+
+const hello = ()=>{
+  console.log('hello')
+}
+
+hello()

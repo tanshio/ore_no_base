@@ -41,13 +41,17 @@ export default {
       path.resolve(__dirname, "src"),
       "node_modules"
     ],
-    alias: {
-      "@utils": "@tanshio/ore-js-utils/src"
-    }
+    // alias: {
+    //   "@utils": "@tanshio/ore-js-utils/src"
+    // }
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
+      {
+        test: /\.js$/,
+        exclude: /node_modules\/(?!@tanshio)/,
+        loader: 'babel-loader'
+      }
     ]
   },
   plugins: pluginsList
