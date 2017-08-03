@@ -1,8 +1,11 @@
-// window.jQuery = window.$ = $
-//
-import changeViewport from '@utils/changeViewport'
 
+import changeViewport from '@utils/changeViewport'
+// window.jQuery = window.$ = $
 changeViewport(1024)
+
+$(window).on('load', () => {
+  console.log('aaa')
+})
 
 async function test () {
   // 60回Promiseを待機する。
@@ -32,7 +35,7 @@ const log = (param) => {
 
 log(process.env)
 
-const hello = ()=>{
+const hello = () => {
   console.log('hello')
 }
 
