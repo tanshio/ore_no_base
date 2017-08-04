@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "image": "imagemin app/images/**/* -o dist/images -r",
-    "imagemin": "imagemin-dir app/images -o dist/images",
+    "imagemin": "imagemin-dir app/images dist/images",
     "dev:js": "webpack --watch --devtool inline-source-map --debug",
     "production:js": "webpack --watch -p",
     "dev:css": "postcss app/style/style.css -o dist/style/style.css -w",
@@ -31,7 +30,7 @@
     "babel-preset-latest": "^6.24.0",
     "browser-sync": "^2.18.13",
     "chokidar-cli": "^1.2.0",
-    "cross-env": "^5.0.1",
+    "cross-env": "^5.0.3",
     "css-mqpacker": "^6.0.1",
     "cssnano": "^3.10.0",
     "ejs": "^2.5.7",
@@ -63,7 +62,7 @@
     "postcss-pxtorem": "^4.0.1",
     "postcss-reporter": "^5.0.0",
     "postcss-sorting": "^3.0.1",
-    "pug": "^2.0.0-rc.2",
+    "pug": "^2.0.0-rc.3",
     "pug-cli": "^1.0.0-alpha6",
     "rimraf": "^2.6.1",
     "shelljs": "^0.7.7",
@@ -72,7 +71,7 @@
     "webpack": "^3.4.1"
   },
   "dependencies": {
-    "@tanshio/ore-js-utils": "^1.0.2",
+    "@tanshio/ore-js-utils": "^1.0.3",
     "jquery": "2.2.4",
     "normalize.css": "^7.0.0"
   },

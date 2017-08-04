@@ -1,11 +1,13 @@
-
 import changeViewport from '@utils/changeViewport'
+import fixedHeight from '@utils/fixedHeight'
+
 // window.jQuery = window.$ = $
 changeViewport(1024)
+fixedHeight('header')
 
-$(window).on('load', () => {
-  console.log('aaa')
-})
+// $(window).on('load', () => {
+//   console.log('aau')
+// })
 
 async function test () {
   // 60回Promiseを待機する。

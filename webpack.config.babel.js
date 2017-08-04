@@ -38,12 +38,9 @@ export default {
   },
   resolve: {
     modules: [
-      path.resolve(__dirname, "src"),
-      "node_modules"
-    ],
-    // alias: {
-    //   "@utils": "@tanshio/ore-js-utils/src"
-    // }
+      path.resolve(__dirname, 'src'),
+      'node_modules'
+    ]
   },
   module: {
     loaders: [

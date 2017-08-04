@@ -16,7 +16,13 @@ html(lang="ja", prefix="og:http://ogp.me/ns#")
     block meta
       include ../meta/_default
   body(class=dir)
+    block header
+      include ./_header.pug
+
     +srcset(src="../../../images/logo.png" x=2 d=1 alt="srcset" class="btn")
-    +img(src="../../../images/logo@2x.png" d=2 alt="aaa2222" class="btn")
+    +img.aaa(src="../../../images/logo@2x.png" d=2 alt="aaa2222" class="btn")
     block content
+    block footer
+      include ./_footer.pug
+
     script(src="./js/main.js")

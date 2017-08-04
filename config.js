@@ -65,6 +65,7 @@ const createDataObj = (obj) => {
 }
 
 const createImg = (options) => {
+  console.log(options)
   const img = new Img(options)
 
   let data = createDataObj(options)
@@ -77,6 +78,10 @@ const createImg = (options) => {
 
   if (options.alt) {
     src = `${src} alt='${options.alt}'`
+  }
+
+  if (options.class) {
+    src = `${src} class='${options.class}'`
   }
 
   if (data.length > 0) {

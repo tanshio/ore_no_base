@@ -1,5 +1,11 @@
 {
-  "presets": ["env"],
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": ["last 2 versions", "safari >= 10", "Explorer 11"]
+      }
+    }]
+  ],
   "plugins": [
     ["transform-runtime", {
       "polyfill": false,
